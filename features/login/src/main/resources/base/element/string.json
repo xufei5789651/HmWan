@@ -1,0 +1,48 @@
+{
+  "string": [
+    {
+      "name": "page_show",
+      "value": "page from package"
+    },
+    {
+      "name": "login_name",
+      "value": "WanAndroid"
+    },
+    {
+      "name": "register_name",
+      "value": "WanAndroid Register"
+    },
+    {
+      "name": "register_name_label",
+      "value": "WanAndroid HarmonyOS"
+    },
+    {
+      "name": "user_name",
+      "value": "user name"
+    },
+    {
+      "name": "register_user_name",
+      "value": "Please enter your username"
+    },
+    {
+      "name": "user_password",
+      "value": "password"
+    },
+    {
+      "name": "register_user_password",
+      "value": "Please enter password"
+    },
+    {
+      "name": "register_repeat_password",
+      "value": "Please enter your password again"
+    },
+    {
+      "name": "user_login",
+      "value": "Login"
+    },
+    {
+      "name": "user_register",
+      "value": "Register"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "module description"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "玩Android"
+    },
+    {
+      "name": "tab_home",
+      "value": "首页"
+    },
+    {
+      "name": "tab_article",
+      "value": "文章"
+    },
+    {
+      "name": "tab_mine",
+      "value": "我的"
+    },
+    {
+      "name": "internet_reason",
+      "value": "请求网络数据"
+    },{
+      "name": "network_reason",
+      "value": "获取网络信息"
+    }
+  ]
+}

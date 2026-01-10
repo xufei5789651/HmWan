@@ -1,0 +1,22 @@
+{
+  "routerMap": [
+    {
+      "name": "LoginMainPage",
+      "pageSourceFile": "src/main/ets/generated/HMLoginMainPage-137403823.ets",
+      "buildFunction": "LoginMainPageBuilder",
+      "customData": {
+        "pageUrl": "LoginMainPage",
+        "name": "LoginMainPage"
+      }
+    },
+    {
+      "name": "RegisterMainPage",
+      "pageSourceFile": "src/main/ets/generated/HMRegisterMainPage-1082336309.ets",
+      "buildFunction": "RegisterMainPageBuilder",
+      "customData": {
+        "pageUrl": "RegisterMainPage",
+        "name": "RegisterMainPage"
+      }
+    }
+  ]
+}

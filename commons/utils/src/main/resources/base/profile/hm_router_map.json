@@ -1,0 +1,22 @@
+{
+  "routerMap": [
+    {
+      "name": "__interceptor__LoginCheckInterceptor",
+      "pageSourceFile": "src/main/ets/interceptors/LoginCheckInterceptor.ets",
+      "buildFunction": "",
+      "customData": {
+        "interceptorName": "LoginCheckInterceptor",
+        "name": "LoginCheckInterceptor"
+      }
+    },
+    {
+      "name": "__lifecycle__ExitAppLifecycle",
+      "pageSourceFile": "src/main/ets/lifecycle/ExitAppLifecycle.ets",
+      "buildFunction": "",
+      "customData": {
+        "lifecycleName": "ExitAppLifecycle",
+        "name": "ExitAppLifecycle"
+      }
+    }
+  ]
+}

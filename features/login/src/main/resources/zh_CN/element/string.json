@@ -1,0 +1,48 @@
+{
+  "string": [
+    {
+      "name": "page_show",
+      "value": "page from package"
+    },
+    {
+      "name": "login_name",
+      "value": "玩Android"
+    },
+    {
+      "name": "register_name",
+      "value": "玩Android注册"
+    },
+    {
+      "name": "register_name_label",
+      "value": "玩Android 鸿蒙版"
+    },
+    {
+      "name": "user_name",
+      "value": "用户名"
+    },
+    {
+      "name": "register_user_name",
+      "value": "请输入用户名"
+    },
+    {
+      "name": "user_password",
+      "value": "密码"
+    },
+    {
+      "name": "register_user_password",
+      "value": "请输入密码"
+    },
+    {
+      "name": "register_repeat_password",
+      "value": "再次输入密码"
+    },
+    {
+      "name": "user_login",
+      "value": "登录"
+    },
+    {
+      "name": "user_register",
+      "value": "注册"
+    }
+  ]
+}

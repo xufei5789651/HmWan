@@ -1,0 +1,15 @@
+{
+  "routerMap": [
+    {
+      "name": "NavPage",
+      "pageSourceFile": "src/main/ets/generated/HMNavPage-900673998.ets",
+      "buildFunction": "NavPageBuilder",
+      "customData": {
+        "pageUrl": "NavPage",
+        "singleton": true,
+        "lifecycle": "ExitAppLifecycle",
+        "name": "NavPage"
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "scanDir": [
+    "src/main/ets"
+  ],
+  "saveGeneratedFile": true,
+  "autoObfuscation": false
+}

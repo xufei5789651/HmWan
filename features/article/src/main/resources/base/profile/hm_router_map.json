@@ -1,0 +1,13 @@
+{
+  "routerMap": [
+    {
+      "name": "ArticleDetailPage",
+      "pageSourceFile": "src/main/ets/generated/HMArticleDetailPage-1134752778.ets",
+      "buildFunction": "ArticleDetailPageBuilder",
+      "customData": {
+        "pageUrl": "ArticleDetailPage",
+        "name": "ArticleDetailPage"
+      }
+    }
+  ]
+}

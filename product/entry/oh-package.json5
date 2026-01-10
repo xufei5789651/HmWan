@@ -1,0 +1,17 @@
+{
+  "name": "entry",
+  "version": "1.0.0",
+  "description": "Please describe the basic information.",
+  "main": "",
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "mine": "file:../../features/mine",
+    "home": "file:../../features/home",
+    "login": "file:../../features/login",
+    "article": "file:../../features/article",
+    "network": "file:../../commons/network",
+    "utils": "file:../../commons/utils",
+  }
+}
+

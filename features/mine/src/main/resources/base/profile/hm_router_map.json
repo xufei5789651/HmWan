@@ -1,0 +1,70 @@
+{
+  "routerMap": [
+    {
+      "name": "MineMainPage",
+      "pageSourceFile": "src/main/ets/generated/HMMineMainPage-601738885.ets",
+      "buildFunction": "MineMainPageBuilder",
+      "customData": {
+        "pageUrl": "MineMainPage",
+        "name": "MineMainPage"
+      }
+    },
+    {
+      "name": "MineSettingPage",
+      "pageSourceFile": "src/main/ets/generated/HMMineSettingPage-1938254196.ets",
+      "buildFunction": "MineSettingPageBuilder",
+      "customData": {
+        "pageUrl": "MineSettingPage",
+        "name": "MineSettingPage"
+      }
+    },
+    {
+      "name": "MyCollectionPage",
+      "pageSourceFile": "src/main/ets/generated/HMMyCollectionPage677562169.ets",
+      "buildFunction": "MyCollectionPageBuilder",
+      "customData": {
+        "pageUrl": "MyCollectionPage",
+        "interceptors": [
+          "LoginCheckInterceptor"
+        ],
+        "name": "MyCollectionPage"
+      }
+    },
+    {
+      "name": "MyIntegralPage",
+      "pageSourceFile": "src/main/ets/generated/HMMyIntegralPage227869255.ets",
+      "buildFunction": "MyIntegralPageBuilder",
+      "customData": {
+        "pageUrl": "MyIntegralPage",
+        "interceptors": [
+          "LoginCheckInterceptor"
+        ],
+        "name": "MyIntegralPage"
+      }
+    },
+    {
+      "name": "MyMessagePage",
+      "pageSourceFile": "src/main/ets/generated/HMMyMessagePage-1883422262.ets",
+      "buildFunction": "MyMessagePageBuilder",
+      "customData": {
+        "pageUrl": "MyMessagePage",
+        "interceptors": [
+          "LoginCheckInterceptor"
+        ],
+        "name": "MyMessagePage"
+      }
+    },
+    {
+      "name": "MySharePage",
+      "pageSourceFile": "src/main/ets/generated/HMMySharePage1487174306.ets",
+      "buildFunction": "MySharePageBuilder",
+      "customData": {
+        "pageUrl": "MySharePage",
+        "interceptors": [
+          "LoginCheckInterceptor"
+        ],
+        "name": "MySharePage"
+      }
+    }
+  ]
+}

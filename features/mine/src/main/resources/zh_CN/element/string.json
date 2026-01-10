@@ -1,0 +1,44 @@
+{
+  "string": [
+    {
+      "name": "page_show",
+      "value": "page from package"
+    },
+    {
+      "name": "mine_name_integral",
+      "value": "我的积分"
+    },
+    {
+      "name": "mine_name_setting",
+      "value": "我的设置"
+    },
+    {
+      "name": "mine_name_collection",
+      "value": "我的收藏"
+    },
+    {
+      "name": "mine_name_share",
+      "value": "我的分享"
+    },
+    {
+      "name": "mine_setting_logout",
+      "value": "退出"
+    },
+    {
+      "name": "message_read",
+      "value": "已读消息"
+    },
+    {
+      "name": "message_unread",
+      "value": "未读消息"
+    },
+    {
+      "name": "my_collect",
+      "value": "我的收藏"
+    },
+    {
+      "name": "my_share",
+      "value": "我的分享"
+    }
+  ]
+}

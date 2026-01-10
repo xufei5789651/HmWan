@@ -1,0 +1,20 @@
+{
+  "color": [
+    {
+      "name": "item_text_color",
+      "value": "#e6000000"
+    },
+    {
+      "name": "base_blue",
+      "value": "#0A59F7"
+    },
+    {
+      "name": "base_red",
+      "value": "#f24b49"
+    },
+    {
+      "name": "active_close_content_color",
+      "value": "#99000000"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "string": [
+    {
+      "name": "page_show",
+      "value": "page from package"
+    },
+    {
+      "name": "mine_name_integral",
+      "value": "My integral"
+    },
+    {
+      "name": "mine_name_setting",
+      "value": "My Setting"
+    },
+    {
+      "name": "mine_name_collection",
+      "value": "My Collection"
+    },
+    {
+      "name": "mine_name_share",
+      "value": "My Share"
+    },
+    {
+      "name": "mine_setting_logout",
+      "value": "log out"
+    },
+    {
+      "name": "message_read",
+      "value": "Read message"
+    },
+    {
+      "name": "message_unread",
+      "value": "Unread message"
+    },
+    {
+      "name": "my_collect",
+      "value": "My Collection"
+    },
+    {
+      "name": "my_share",
+      "value": "My Share"
+    }
+  ]
+}

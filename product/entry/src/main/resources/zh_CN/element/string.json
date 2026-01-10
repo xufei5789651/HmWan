@@ -1,0 +1,24 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "模块描述"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "玩Android"
+    },
+    {
+      "name": "internet_reason",
+      "value": "请求网络数据"
+    },
+    {
+      "name": "network_reason",
+      "value": "获取网络信息"
+    }
+  ]
+}
