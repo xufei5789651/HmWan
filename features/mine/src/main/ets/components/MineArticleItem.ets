@@ -1,9 +1,9 @@
 import { UtilConstants } from "utils";
 import { ArticleInfo } from "../model/CollectArticleResponse";
 
-@ComponentV2
+@Component
 export struct MineArticleItem {
-  @Param @Require info: ArticleInfo;
+  @State @Require info: ArticleInfo;
 
   build() {
     Column() {
