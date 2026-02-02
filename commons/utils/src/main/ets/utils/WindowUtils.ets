@@ -1,8 +1,11 @@
 import { display } from "@kit.ArkUI";
 import { UtilConstants } from "../common/UtilConstants";
 
+const TAG:string='WindowUtils';
+
 export class WindowUtils {
   static updateWidthBp(windowWidth: number) {
+    console.log(TAG,'--->updateWidthBp');
     let windowWidthVp = windowWidth / display.getDefaultDisplaySync().densityPixels;
     let widthBp: string = '';
     if (windowWidthVp < UtilConstants.CONST_WIDTH_BREAKPOINT_XS) {
@@ -23,6 +26,7 @@ export class WindowUtils {
   }
 
   static updateHeightBp(windowWidth: number, windowHeight: number) {
+    console.log(TAG,'--->updateHeightBp');
     let windowWidthVp = windowWidth / display.getDefaultDisplaySync().densityPixels;
     let windowHeightVp = windowHeight / display.getDefaultDisplaySync().densityPixels
     let heightBp: string = '';

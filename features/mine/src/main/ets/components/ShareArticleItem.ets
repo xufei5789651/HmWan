@@ -1,9 +1,9 @@
 import { HMRouterMgr } from "@hadss/hmrouter";
 import { HmRouterPathConstants, UtilConstants } from "utils";
-import { ArticleInfo } from "../model/CollectArticleResponse";
+import { ArticleInfo } from "../model/ShareArticleResponse";
 
 @Component
-export struct MineArticleItem {
+export struct ShareArticleItem {
   @State @Require info: ArticleInfo;
 
   build() {
@@ -46,7 +46,7 @@ export struct MineArticleItem {
       })
     })
     .alignItems(HorizontalAlign.Start)
-    .width(UtilConstants.CONST_UI_PER_100)
+    // .width(UtilConstants.CONST_UI_PER_100)
     .backgroundColor(UtilConstants.CONST_UI_COLOR_white)
   }
 }

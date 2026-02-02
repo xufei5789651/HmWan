@@ -1,12 +1,10 @@
 import { HMRouter, HMRouterMgr } from '@hadss/hmrouter';
 import { GridManager, NodeItem, RecyclerView } from '@hadss/scroll_components';
+import { PullToRefresh } from '@ohos/pulltorefresh';
 import { NetError } from 'network';
 import {
-  FooterView,
-  HeaderView,
+  BreakpointType,
   HmRouterPathConstants,
-  LoadingStatus,
-  NoMore,
   PreferenceManager,
   showToast,
   TitleComponent,
@@ -21,40 +19,38 @@ const TAG: string = 'MyCollectionPage';
 @HMRouter({ pageUrl: HmRouterPathConstants.PAGE_MINE_COLLECTION_NAV, interceptors: ['LoginCheckInterceptor'] })
 @Component
 export struct MyCollectionPage {
+  @StorageProp('currentWidthBreakpoint') @Watch('changeBreakpoint') currentWidthBreakpoint: string =
+    UtilConstants.CONST_BREAKPOINT_MD;
   gridViewManager: GridViewManager =
     new GridViewManager({ defaultNodeItem: 'CollectGridView', context: this.getUIContext() });
   manager: PreferenceManager = PreferenceManager.getInstance();
   pageNum: number = 0;
-  total: number = 0;
+  scroller: Scroller = new Scroller();
   @State dataList: ArticleInfo[] = [];
-  @State isRefresh: boolean = false;
+  @State isRefresh: boolean = true;
   @State isMore: boolean = false;
-  @State isFinish: boolean = false;
-  @State mOffset: number = 0;
-  @State loadingStatus: LoadingStatus = LoadingStatus.LOADINGSTART;
-  @State refreshStatus: RefreshStatus = RefreshStatus.Inactive;
+
+  changeBreakpoint() {
+    console.log(TAG, 'changeBreakpoint currentWidthBreakpoint: ' + this.currentWidthBreakpoint);
+
+    this.gridViewManager.setViewStyle()
+      .columnsTemplate(new BreakpointType('repeat(auto-stretch, 160)', 'repeat(auto-stretch, 160)',
+        'repeat(auto-stretch, 160)').getValue(this.currentWidthBreakpoint));
+  }
 
   aboutToAppear(): void {
+    console.log(TAG, 'aboutToAppear currentWidthBreakpoint: ' + this.currentWidthBreakpoint);
+
     this.gridViewManager.registerNodeItem('CollectGridView', wrapBuilder(CollectGridView));
 
     this.gridViewManager.setViewStyle()
       .width(UtilConstants.CONST_UI_PER_95)
       .margin({ top: UtilConstants.CONST_UI_SIZE_5 })
-      .columnsTemplate('repeat(auto-stretch, 160)')
+      .columnsTemplate(new BreakpointType('repeat(auto-stretch, 160)', 'repeat(auto-stretch, 160)',
+        'repeat(auto-stretch, 160)').getValue(this.currentWidthBreakpoint))
       .alignItems(GridItemAlignment.STRETCH)
       .columnsGap(5)
       .rowsGap(5);
-
-    this.gridViewManager.setViewStyle()
-      .onScrollIndex((first: number, last: number) => {
-        console.log(TAG, 'onScrollIndex first:' + first + '  last:' + last + '  集合:' + (this.dataList.length - 1));
-        if (last >= this.dataList.length - 1) {
-          this.pageNum++;
-          this.isRefresh = false;
-          this.isMore = true;
-          this.getCollectList(this.pageNum);
-        }
-      })
 
     this.getCollectList(this.pageNum);
   }
@@ -69,13 +65,11 @@ export struct MyCollectionPage {
           this.gridViewManager.nodeAdapter.deleteData(0, this.dataList.length);
           this.dataList.length = 0;
           this.isRefresh = false;
-          this.total = response.data.size;
         }
         if (list.length === 0 && this.pageNum !== 0) {
-          this.isFinish = true;
           this.isMore = false;
         } else {
-          this.isFinish = false;
+          this.isMore = true;
         }
 
         list.forEach((item) => {
@@ -91,47 +85,45 @@ export struct MyCollectionPage {
     });
   }
 
+  @Builder
+  gridView() {
+    RecyclerView({ viewManager: this.gridViewManager })
+  }
+
   build() {
     Column() {
       TitleComponent({
         title: $r('app.string.my_collect'), onBackClick: () => {
           HMRouterMgr.pop()
         }
-      })
-        .backgroundColor(UtilConstants.CONST_UI_COLOR_white)
+      }).backgroundColor(UtilConstants.CONST_UI_COLOR_white)
 
-      Refresh({ refreshing: $$this.isRefresh, builder: HeaderView(this.mOffset, this.refreshStatus, this.isRefresh) }) {
-        Column() {
-          RecyclerView({ viewManager: this.gridViewManager })
-
-          Row() {
-            FooterView()
-          }
-          .height(30)
-          .visibility(this.isMore ? Visibility.Visible : Visibility.None)
-
-          Row() {
-            NoMore()
-          }
-          .height(30)
-          .visibility(this.isFinish ? Visibility.Visible : Visibility.None)
+      PullToRefresh({
+        data: $dataList,
+        scroller: this.scroller,
+        customList: () => {
+          this.gridView();
+        },
+        onRefresh: () => {
+          return new Promise((resolve, reject) => {
+            resolve(UtilConstants.CONST_PULL_HINT);
+            this.pageNum = 0;
+            this.isRefresh = true;
+            this.getCollectList(this.pageNum);
+          })
+        },
+        onLoadMore: () => {
+          return new Promise((resolve, reject) => {
+            if (this.isMore) {
+              resolve(UtilConstants.CONST_LOAD_HINT);
+            } else {
+              resolve(UtilConstants.CONST_LOAD_END_HINT);
+            }
+            this.pageNum = this.pageNum + 1;
+            this.getCollectList(this.pageNum);
+          })
         }
-      }
-      .onOffsetChange((offset: number) => {
-        this.mOffset = offset;
       })
-      .onStateChange((state: RefreshStatus) => {
-        this.refreshStatus = state;
-        console.log(TAG, 'onStateChange state:' + state);
-      })
-      .onRefreshing(() => {
-        console.log(TAG, 'onRefreshing');
-        this.isRefresh = true;
-        this.pageNum = 0;
-        this.getCollectList(this.pageNum);
-      })
-      .width(UtilConstants.CONST_UI_PER_100)
-      .height(UtilConstants.CONST_UI_PER_100)
     }
     .width(UtilConstants.CONST_UI_PER_100)
     .backgroundColor(UtilConstants.CONST_UI_COLOR_f6f7f6)

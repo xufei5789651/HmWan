@@ -1,13 +1,17 @@
 import { UtilConstants } from "../common/UtilConstants";
 
-@Builder
-function DefaultBuilder() {}
+// @Builder
+// function DefaultBuilder() {
+// }
 
 @ComponentV2
 export struct TitleComponent {
   @Param @Require title?: ResourceStr;
-  @BuilderParam menuView?: CustomBuilder = DefaultBuilder;
+  @BuilderParam menuView?: CustomBuilder = this.DefaultBuilder;
   @Param @Require onBackClick?: Function;
+
+  @Builder
+  DefaultBuilder() {}
 
   build() {
     Row() {

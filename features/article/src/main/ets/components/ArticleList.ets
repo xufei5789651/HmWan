@@ -1,7 +1,13 @@
 import { NetError } from "network";
-import { Article, ArticleListItem,
+import {
+  Article,
+  ArticleListItem,
   BreakpointType,
-  HmRouterPathConstants, HomeArticleResponse, showToast, UtilConstants } from "utils";
+  HmRouterPathConstants,
+  HomeArticleResponse,
+  showToast,
+  UtilConstants
+} from "utils";
 import { ProjectNetFunc } from "../net/ProjectNetFunc";
 import { ArticleListDataSource } from "utils/src/main/ets/model/ArticleLstDataSource";
 import { PullToRefresh } from "@ohos/pulltorefresh";
@@ -13,7 +19,7 @@ const TAG: string = 'ArticleList';
 export struct ArticleList {
   @StorageProp('currentWidthBreakpoint') currentWidthBreakpoint: string = UtilConstants.CONST_BREAKPOINT_MD;
   @Prop tabId: number;
-  @State isMore:boolean=true;
+  @State isMore: boolean = true;
   @State lazyArticleList: ArticleListDataSource = new ArticleListDataSource();
   pageIndex: number = 1;
   articleList: Article[] = [];
@@ -38,7 +44,7 @@ export struct ArticleList {
         this.articleList.forEach((item) => {
           this.lazyArticleList.pushData(item);
         })
-        console.log(TAG,`data length:${response.data.size}`);
+        console.log(TAG, `data length:${response.data.size}`);
       } else {
         showToast('getProjectArticleList errorCode:' + response.errorCode);
       }
@@ -65,9 +71,9 @@ export struct ArticleList {
         },
         onLoadMore: () => {
           return new Promise((resolve, reject) => {
-            if (this.isMore){
+            if (this.isMore) {
               resolve(UtilConstants.CONST_LOAD_HINT);
-            }else {
+            } else {
               resolve(UtilConstants.CONST_LOAD_END_HINT);
             }
             this.pageIndex = this.pageIndex + 1;
@@ -84,7 +90,7 @@ export struct ArticleList {
   }
 
   @Builder
-  articleListPage(){
+  articleListPage() {
     List({ space: UtilConstants.CONST_UI_SIZE_10, scroller: this.scroller }) {
       LazyForEach(this.lazyArticleList, (article: Article) => {
         ListItem() {
@@ -92,11 +98,11 @@ export struct ArticleList {
             .onClick(() => {
               HMRouterMgr.push({
                 pageUrl: HmRouterPathConstants.PAGE_ARTICLE_DETAIL_NAV,
-                param: { link: article.link }
+                param: { title: article.title, link: article.link, desc: article.superChapterName }
               })
             })
         }
-      }, (item: Article, index: number) => JSON.stringify(item.id)+'_'+this.tabId)
+      }, (item: Article, index: number) => JSON.stringify(item.id) + '_' + this.tabId)
     }
     .cachedCount(3)
     .lanes(new BreakpointType(1, 2, 3).getValue(this.currentWidthBreakpoint))

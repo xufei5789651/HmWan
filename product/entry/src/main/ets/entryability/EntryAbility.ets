@@ -4,7 +4,7 @@ import { window } from '@kit.ArkUI';
 import { HMRouterMgr } from '@hadss/hmrouter';
 import { HMRouterTransitions } from '@hadss/hmrouter-transitions';
 import { createNWeb, WindowUtils } from 'utils';
-import { DialogHub } from '@hadss/dialoghub';
+
 
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {

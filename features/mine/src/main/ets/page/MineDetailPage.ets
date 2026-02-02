@@ -1,13 +1,11 @@
-import { HMRouter, HMRouterMgr } from "@hadss/hmrouter"
-import { createNWeb, HmRouterPathConstants, shareLink, TitleComponent, UtilConstants, WebComponent } from "utils"
+import { HMRouter, HMRouterMgr } from "@hadss/hmrouter";
+import { createNWeb, HmRouterPathConstants, shareLink, TitleComponent, UtilConstants, WebComponent } from "utils";
 import { common } from "@kit.AbilityKit";
 
-const TAG: string = 'ArticleDetailPage';
-
-@HMRouter({ pageUrl: HmRouterPathConstants.PAGE_ARTICLE_DETAIL_NAV })
+@HMRouter({ pageUrl: HmRouterPathConstants.PAGE_MINE_DETAIL_NAV })
 @Entry
 @ComponentV2
-export struct ArticleDetailPage {
+export struct MineDetailPage {
   param: ESObject | null = null;
   @Local url: string = '';
   @Local title: string = '';
@@ -28,12 +26,12 @@ export struct ArticleDetailPage {
         title: $r('app.string.page_article_title'), onBackClick: () => {
           HMRouterMgr.pop()
         }
-      }) {
+      }){
         Image($r('app.media.title_share'))
           .width(UtilConstants.CONST_UI_SIZE_20)
           .height(UtilConstants.CONST_UI_SIZE_20)
           .onClick(() => {
-            shareLink(this.context, this.title, this.url, this.desc);
+            shareLink(this.context, this.title, this.url,this.desc);
           })
       }
 

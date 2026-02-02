@@ -1,4 +1,4 @@
-export { showToast } from './src/main/ets/utils/Utils'
+export { showToast, shareLink } from './src/main/ets/utils/Utils'
 
 export { UtilConstants } from './src/main/ets/common/UtilConstants'
 
@@ -38,5 +38,5 @@ export { LoadingStatus } from './src/main/ets/model/LoadingStatus'
 
 export { ActiveCloseBuilder } from './src/main/ets/dialoghub/ActiveCloseBuilder'
 
-export { createNWeb, getNWeb, deleteNode} from './src/main/ets/web/WebUtils'
+export { createNWeb, getNWeb, deleteNode } from './src/main/ets/web/WebUtils'
 

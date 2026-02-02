@@ -57,12 +57,6 @@ export struct ArticleListItem {
           .margin({ left: 10 })
 
           Blank()
-
-          Image($r('app.media.share'))
-            .objectFit(ImageFit.Contain)
-            .width(16)
-            .margin({ right: 15 })
-            .aspectRatio(1)
         }
         .alignItems(VerticalAlign.Center)
         .offset({ x: UtilConstants.CONST_UI_SIZE_10, y: UtilConstants.CONST_UI_SIZE_NEG_10 })

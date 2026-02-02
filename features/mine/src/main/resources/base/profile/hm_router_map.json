@@ -65,6 +65,15 @@
         ],
         "name": "MySharePage"
       }
+    },
+    {
+      "name": "MineDetailPage",
+      "pageSourceFile": "src/main/ets/generated/HMMineDetailPage151920467.ets",
+      "buildFunction": "MineDetailPageBuilder",
+      "customData": {
+        "pageUrl": "MineDetailPage",
+        "name": "MineDetailPage"
+      }
     }
   ]
 }
