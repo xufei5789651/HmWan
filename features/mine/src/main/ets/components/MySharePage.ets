@@ -1,6 +1,6 @@
 import { HMRouter, HMRouterMgr } from '@hadss/hmrouter';
 import { NodeItem, RecyclerView, WaterFlowManager } from '@hadss/scroll_components';
-import { PullToRefresh } from '@ohos/pulltorefresh';
+import { PullToRefresh, PullToRefreshType } from '@ohos/pulltorefresh';
 import { NetError } from 'network';
 import { HmRouterPathConstants, PreferenceManager, showToast, TitleComponent, UtilConstants } from 'utils';
 import { ArticleInfo, ShareArticleResponse } from '../model/ShareArticleResponse';
@@ -18,9 +18,8 @@ export struct MySharePage {
   pageNum: number = 1;
   scroller: Scroller = new Scroller();
   @State dataList: ArticleInfo[] = [];
-  @State isRefresh: boolean = true;
+  @State isRefresh: boolean = false;
   @State isMore: boolean = false;
-
 
   aboutToAppear(): void {
     this.waterViewManager.registerNodeItem('ShareWaterView', wrapBuilder(ShareWaterView));
@@ -36,6 +35,10 @@ export struct MySharePage {
         left: 10,
         right: 10
       })
+
+    this.waterViewManager.setItemViewStyle((item: FlowItemInterface, index: number, data: ESObject)=>{
+      item().width(UtilConstants.CONST_UI_PER_100)
+    })
 
     this.getShareList(this.pageNum);
   }
@@ -86,8 +89,8 @@ export struct MySharePage {
       }).backgroundColor(UtilConstants.CONST_UI_COLOR_white)
 
       PullToRefresh({
-        data: $dataList,
-        scroller: this.scroller,
+        pullToRefreshType: PullToRefreshType.WATERFLOW,
+        refreshing: $isRefresh,
         customList: () => {
           this.getWaterFlow();
         },

@@ -71,6 +71,12 @@ export struct ArticleListItem {
       .height(UtilConstants.CONST_UI_SIZE_80)
       .borderRadius(UtilConstants.CONST_UI_SIZE_15)
       .backgroundColor(UtilConstants.CONST_UI_COLOR_white)
-    }.padding({ left: 10, right: 10 })
+    }
+    .padding({
+      top: UtilConstants.CONST_UI_SIZE_5,
+      left: UtilConstants.CONST_UI_SIZE_10,
+      bottom: UtilConstants.CONST_UI_SIZE_5,
+      right: UtilConstants.CONST_UI_SIZE_10
+    })
   }
 }

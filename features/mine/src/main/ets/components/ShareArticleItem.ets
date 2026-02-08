@@ -46,7 +46,7 @@ export struct ShareArticleItem {
       })
     })
     .alignItems(HorizontalAlign.Start)
-    // .width(UtilConstants.CONST_UI_PER_100)
+    .width(UtilConstants.CONST_UI_PER_100)
     .backgroundColor(UtilConstants.CONST_UI_COLOR_white)
   }
 }

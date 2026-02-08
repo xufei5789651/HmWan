@@ -8,6 +8,10 @@ export class ArticleListDataSource extends ArticleDataSource {
     return this.dataArray.length;
   }
 
+  public getDataList():Article[]{
+    return this.dataArray;
+  }
+
   public getData(index: number): Object {
     return this.dataArray[index];
   }

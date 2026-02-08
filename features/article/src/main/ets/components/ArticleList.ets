@@ -10,7 +10,7 @@ import {
 } from "utils";
 import { ProjectNetFunc } from "../net/ProjectNetFunc";
 import { ArticleListDataSource } from "utils/src/main/ets/model/ArticleLstDataSource";
-import { PullToRefresh } from "@ohos/pulltorefresh";
+import { PullToRefresh, PullToRefreshType } from "@ohos/pulltorefresh";
 import { HMRouterMgr } from "@hadss/hmrouter";
 
 const TAG: string = 'ArticleList';
@@ -21,9 +21,11 @@ export struct ArticleList {
   @Prop tabId: number;
   @State isMore: boolean = true;
   @State lazyArticleList: ArticleListDataSource = new ArticleListDataSource();
+  @State isRefresh: boolean = false;
   pageIndex: number = 1;
-  articleList: Article[] = [];
+  @State articleList: Article[] = [];
   private scroller: Scroller = new Scroller();
+  private modifier: MyListModifier = new MyListModifier(new BreakpointType(1, 2, 3).getValue(this.currentWidthBreakpoint));
 
   aboutToAppear(): void {
     this.getProjectArticleList(this.tabId, this.pageIndex);
@@ -32,7 +34,7 @@ export struct ArticleList {
   getProjectArticleList(id: number, pageIndex: number) {
     ProjectNetFunc.getProjectArticleList(id, pageIndex).then((response: HomeArticleResponse) => {
       if (response.errorCode === 0) {
-        this.articleList = response.data.datas;
+        let articleList = response.data.datas;
         if (response.data.size === UtilConstants.CONST_PAGE_SIZE) {
           this.isMore = true;
         } else {
@@ -40,10 +42,14 @@ export struct ArticleList {
         }
         if (pageIndex === 0) {
           this.lazyArticleList.clear();
+          this.isRefresh = false;
         }
-        this.articleList.forEach((item) => {
+
+        articleList.forEach((item) => {
           this.lazyArticleList.pushData(item);
         })
+
+        this.articleList = this.lazyArticleList.getDataList();
         console.log(TAG, `data length:${response.data.size}`);
       } else {
         showToast('getProjectArticleList errorCode:' + response.errorCode);
@@ -56,8 +62,9 @@ export struct ArticleList {
   build() {
     Column() {
       PullToRefresh({
-        data: $lazyArticleList,
-        scroller: this.scroller,
+        pullToRefreshType: PullToRefreshType.LIST,
+        // data: this.articleList,
+        refreshing: $isRefresh,
         customList: () => {
           this.articleListPage();
         },
@@ -69,6 +76,7 @@ export struct ArticleList {
             console.log(TAG, 'onRefresh, pageIndex:' + this.pageIndex);
           })
         },
+        modifierListAttribute: this.modifier,
         onLoadMore: () => {
           return new Promise((resolve, reject) => {
             if (this.isMore) {
@@ -91,7 +99,7 @@ export struct ArticleList {
 
   @Builder
   articleListPage() {
-    List({ space: UtilConstants.CONST_UI_SIZE_10, scroller: this.scroller }) {
+    // List({ space: UtilConstants.CONST_UI_SIZE_10, scroller: this.scroller }) {
       LazyForEach(this.lazyArticleList, (article: Article) => {
         ListItem() {
           ArticleListItem({ item: article })
@@ -103,12 +111,31 @@ export struct ArticleList {
             })
         }
       }, (item: Article, index: number) => JSON.stringify(item.id) + '_' + this.tabId)
-    }
-    .cachedCount(3)
-    .lanes(new BreakpointType(1, 2, 3).getValue(this.currentWidthBreakpoint))
-    .edgeEffect(EdgeEffect.None)
-    .width(UtilConstants.CONST_HEIGHT_UI)
-    .height(UtilConstants.CONST_HEIGHT_UI)
-    .backgroundColor(UtilConstants.CONST_UI_COLOR_f6f7f6)
+    // }
+    // .cachedCount(3)
+    // .lanes(new BreakpointType(1, 2, 3).getValue(this.currentWidthBreakpoint))
+    // .edgeEffect(EdgeEffect.None)
+    // .width(UtilConstants.CONST_HEIGHT_UI)
+    // .height(UtilConstants.CONST_HEIGHT_UI)
+    // .backgroundColor(UtilConstants.CONST_UI_COLOR_f6f7f6)
+  }
+}
+
+//动态添加list组件的属性
+class MyListModifier implements AttributeModifier<ListAttribute> {
+
+  private lanes :number;
+
+  constructor(lanes:number) {
+    this.lanes=lanes;
+  }
+
+  applyNormalAttribute(instance: ListAttribute): void {
+    instance.cachedCount(3);
+    instance.edgeEffect(EdgeEffect.None);
+    instance.lanes(this.lanes);
+    instance.backgroundColor(UtilConstants.CONST_UI_COLOR_f6f7f6);
+    instance.width(UtilConstants.CONST_HEIGHT_UI);
+    instance.height(UtilConstants.CONST_HEIGHT_UI);
   }
 }

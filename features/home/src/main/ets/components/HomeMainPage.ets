@@ -1,4 +1,4 @@
-import { PullToRefresh } from '@ohos/pulltorefresh';
+import { PullToRefresh, PullToRefreshType } from '@ohos/pulltorefresh';
 import { NetError } from 'network';
 import { BreakpointType, HmRouterPathConstants, showToast, UtilConstants } from 'utils';
 import { ArticleListDataSource } from 'utils/src/main/ets/model/ArticleLstDataSource';
@@ -16,9 +16,10 @@ export struct HomeMainPage {
   @StorageProp('currentWidthBreakpoint') currentWidthBreakpoint: string = UtilConstants.CONST_BREAKPOINT_MD;
   @State lazyArticleList: ArticleListDataSource = new ArticleListDataSource();
   @State bannerList: BannerItem[] = [];
-  articleList: Article[] = [];
+  @State isRefresh: boolean = false;
+  @State articleList: Article[] = [];
   pageIndex: number = 0;
-  private scroller: Scroller = new Scroller();
+  private modifier: MyListModifier = new MyListModifier();
 
   aboutToAppear(): void {
     this.getBannerList();
@@ -41,15 +42,17 @@ export struct HomeMainPage {
   getHomeArticleList(pageIndex: number) {
     HomeNetFunc.getHomeArticleList(pageIndex).then((response: HomeArticleResponse) => {
       if (response.errorCode === 0) {
-        this.articleList = response.data.datas;
-        console.log(TAG, 'getHomeArticleList pageIndex:' + pageIndex + ', ArticleList length:' + this.articleList.length);
+        let articleList = response.data.datas;
+        console.log(TAG, 'getHomeArticleList pageIndex:' + pageIndex + ', ArticleList length:' + articleList.length);
         if (pageIndex === 0) {
           this.lazyArticleList.clear();
           this.lazyArticleList.pushData(bannerItem);
         }
-        this.articleList.forEach((item) => {
+        articleList.forEach((item) => {
           this.lazyArticleList.pushData(item);
         })
+
+        this.articleList = this.lazyArticleList.getDataList();
       } else {
         showToast(`ArticleList,errorCode:${response.errorCode},errorMsg${response.errorMsg}`);
       }
@@ -61,8 +64,8 @@ export struct HomeMainPage {
   build() {
     Column() {
       PullToRefresh({
-        data: $lazyArticleList,
-        scroller: this.scroller,
+        pullToRefreshType: PullToRefreshType.SCROLL,
+        refreshing: $isRefresh,
         customList: () => {
           this.homePageList();
         },
@@ -74,6 +77,7 @@ export struct HomeMainPage {
             console.log(TAG, 'onRefresh, pageIndex:' + this.pageIndex);
           })
         },
+        modifierListAttribute: this.modifier,
         onLoadMore: () => {
           return new Promise((resolve, reject) => {
             resolve('加载更多');
@@ -90,8 +94,6 @@ export struct HomeMainPage {
 
   @Builder
   homePageList() {
-    Scroll() {
-      List({ space: UtilConstants.CONST_UI_SIZE_10, scroller: this.scroller }) {
         LazyForEach(this.lazyArticleList, (article: Article) => {
           ListItem() {
             if (article.id === -1) {
@@ -100,13 +102,15 @@ export struct HomeMainPage {
                   Image(item.imagePath)
                     .width(UtilConstants.CONST_WIDTH_UI)
                     .height(UtilConstants.CONST_HEIGHT_UI)
-                    .onClick(()=>{
+                    .onClick(() => {
                       HMRouterMgr.push({
                         pageUrl: HmRouterPathConstants.PAGE_ARTICLE_DETAIL_NAV,
                         param: { link: item.url }
                       })
                     })
-                }, (item: BannerItem, index: number) => {return JSON.stringify(item.id);})
+                }, (item: BannerItem, index: number) => {
+                  return JSON.stringify(item.id);
+                })
               }
               .displayCount(new BreakpointType(1, 2, 2).getValue(this.currentWidthBreakpoint))
               .loop(true)
@@ -118,7 +122,7 @@ export struct HomeMainPage {
               .width(UtilConstants.CONST_HEIGHT_UI)
             } else {
               ItemArticle({ item: article })
-                .onClick(()=>{
+                .onClick(() => {
                   HMRouterMgr.push({
                     pageUrl: HmRouterPathConstants.PAGE_ARTICLE_DETAIL_NAV,
                     param: { link: article.link }
@@ -129,16 +133,17 @@ export struct HomeMainPage {
         }, (item: Article, index: number) => {
           return JSON.stringify(item.id);
         })
-      }
-      .cachedCount(3)
-      .edgeEffect(EdgeEffect.None)
-      .width(UtilConstants.CONST_HEIGHT_UI)
-      .height(UtilConstants.CONST_HEIGHT_UI)
-    }
-    .backgroundColor($r('app.color.color_f6f7f6'))
-    .height(UtilConstants.CONST_WIDTH_UI)
-    .width(UtilConstants.CONST_HEIGHT_UI)
-    .scrollBar(BarState.Off)
+  }
+}
+
+//动态添加list组件的属性
+class MyListModifier implements AttributeModifier<ListAttribute> {
+  applyNormalAttribute(instance: ListAttribute): void {
+    instance.cachedCount(3);
+    instance.edgeEffect(EdgeEffect.None);
+    instance.backgroundColor($r('app.color.color_f6f7f6'));
+    instance.width(UtilConstants.CONST_HEIGHT_UI);
+    instance.height(UtilConstants.CONST_HEIGHT_UI);
   }
 }
 

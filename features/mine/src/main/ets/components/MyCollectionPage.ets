@@ -1,6 +1,6 @@
 import { HMRouter, HMRouterMgr } from '@hadss/hmrouter';
 import { GridManager, NodeItem, RecyclerView } from '@hadss/scroll_components';
-import { PullToRefresh } from '@ohos/pulltorefresh';
+import { PullToRefresh, PullToRefreshType } from '@ohos/pulltorefresh';
 import { NetError } from 'network';
 import {
   BreakpointType,
@@ -25,10 +25,13 @@ export struct MyCollectionPage {
     new GridViewManager({ defaultNodeItem: 'CollectGridView', context: this.getUIContext() });
   manager: PreferenceManager = PreferenceManager.getInstance();
   pageNum: number = 0;
-  scroller: Scroller = new Scroller();
   @State dataList: ArticleInfo[] = [];
-  @State isRefresh: boolean = true;
+  @State isRefresh: boolean = false;
   @State isMore: boolean = false;
+  @State layoutOptions: GridLayoutOptions = {
+    regularSize: [1, 1],
+    irregularIndexes: [this.dataList.length*this.dataList.length ], //需传入gridItem的数量
+  };
 
   changeBreakpoint() {
     console.log(TAG, 'changeBreakpoint currentWidthBreakpoint: ' + this.currentWidthBreakpoint);
@@ -75,7 +78,6 @@ export struct MyCollectionPage {
         list.forEach((item) => {
           this.dataList.push(item);
         })
-
         this.gridViewManager.nodeAdapter.pushData(list);
       } else {
         showToast('getCollectList errorCode:' + response.errorCode);
@@ -99,16 +101,16 @@ export struct MyCollectionPage {
       }).backgroundColor(UtilConstants.CONST_UI_COLOR_white)
 
       PullToRefresh({
-        data: $dataList,
-        scroller: this.scroller,
+        pullToRefreshType: PullToRefreshType.GRID,
+        refreshing: $isRefresh,
         customList: () => {
           this.gridView();
         },
         onRefresh: () => {
           return new Promise((resolve, reject) => {
+            this.isRefresh = true;
             resolve(UtilConstants.CONST_PULL_HINT);
             this.pageNum = 0;
-            this.isRefresh = true;
             this.getCollectList(this.pageNum);
           })
         },
@@ -122,7 +124,9 @@ export struct MyCollectionPage {
             this.pageNum = this.pageNum + 1;
             this.getCollectList(this.pageNum);
           })
-        }
+        },
+        gridDataLength: this.dataList.length,
+        layoutOptions: this.layoutOptions
       })
     }
     .width(UtilConstants.CONST_UI_PER_100)

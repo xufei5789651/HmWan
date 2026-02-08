@@ -4,7 +4,7 @@
   "dependencies": {
     "@hadss/hmrouter": "^1.0.0-rc.10",
     "@hadss/hmrouter-transitions": "^1.0.0-rc.10",
-    "@ohos/pulltorefresh": "^2.1.1",
+    "@ohos/pulltorefresh": "^3.0.0",
     "@hadss/dialoghub": "^1.0.0-rc.0",
     "@hadss/scroll_components": "^1.0.0-rc.4"
   },
