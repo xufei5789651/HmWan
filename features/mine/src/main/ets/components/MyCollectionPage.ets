@@ -1,6 +1,6 @@
 import { HMRouter, HMRouterMgr } from '@hadss/hmrouter';
 import { GridManager, NodeItem, RecyclerView } from '@hadss/scroll_components';
-import { PullToRefresh, PullToRefreshType } from '@ohos/pulltorefresh';
+import { PullToRefresh } from '@ohos/pulltorefresh';
 import { NetError } from 'network';
 import {
   BreakpointType,
@@ -13,6 +13,7 @@ import {
 import { ArticleInfo, CollectArticleResponse } from '../model/CollectArticleResponse';
 import { MineNetFunc } from '../net/MineNetFunc';
 import { MineArticleItem } from './MineArticleItem';
+import { display } from '@kit.ArkUI';
 
 const TAG: string = 'MyCollectionPage';
 
@@ -25,19 +26,16 @@ export struct MyCollectionPage {
     new GridViewManager({ defaultNodeItem: 'CollectGridView', context: this.getUIContext() });
   manager: PreferenceManager = PreferenceManager.getInstance();
   pageNum: number = 0;
+  scroller: Scroller = new Scroller();
   @State dataList: ArticleInfo[] = [];
   @State isRefresh: boolean = false;
   @State isMore: boolean = false;
-  @State layoutOptions: GridLayoutOptions = {
-    regularSize: [1, 1],
-    irregularIndexes: [this.dataList.length*this.dataList.length ], //需传入gridItem的数量
-  };
 
   changeBreakpoint() {
     console.log(TAG, 'changeBreakpoint currentWidthBreakpoint: ' + this.currentWidthBreakpoint);
 
-    this.gridViewManager.setViewStyle()
-      .columnsTemplate(new BreakpointType('repeat(auto-stretch, 160)', 'repeat(auto-stretch, 160)',
+    this.gridViewManager.setViewStyle(this.scroller)
+      .columnsTemplate(new BreakpointType(this.getFoldStatusBreakpoint(), this.getFoldStatusBreakpoint(),
         'repeat(auto-stretch, 160)').getValue(this.currentWidthBreakpoint));
   }
 
@@ -46,10 +44,10 @@ export struct MyCollectionPage {
 
     this.gridViewManager.registerNodeItem('CollectGridView', wrapBuilder(CollectGridView));
 
-    this.gridViewManager.setViewStyle()
+    this.gridViewManager.setViewStyle(this.scroller)
       .width(UtilConstants.CONST_UI_PER_95)
       .margin({ top: UtilConstants.CONST_UI_SIZE_5 })
-      .columnsTemplate(new BreakpointType('repeat(auto-stretch, 160)', 'repeat(auto-stretch, 160)',
+      .columnsTemplate(new BreakpointType(this.getFoldStatusBreakpoint(), this.getFoldStatusBreakpoint(),
         'repeat(auto-stretch, 160)').getValue(this.currentWidthBreakpoint))
       .alignItems(GridItemAlignment.STRETCH)
       .columnsGap(5)
@@ -58,12 +56,16 @@ export struct MyCollectionPage {
     this.getCollectList(this.pageNum);
   }
 
+  getFoldStatusBreakpoint(): string {
+    return display.isFoldable() ? 'repeat(auto-stretch, 160)' : 'repeat(auto-stretch, 175)';
+  }
+
   async getCollectList(pageNum: number) {
     let cookie = await this.manager.getValue('cookie') as string;
     MineNetFunc.getCollectList(cookie, pageNum).then((response: CollectArticleResponse) => {
       if (response.errorCode === 0) {
         let list = response.data.datas;
-
+        console.log(TAG, `pageNum: ${pageNum} ,list length: ${list.length}`);
         if (this.isRefresh) {
           this.gridViewManager.nodeAdapter.deleteData(0, this.dataList.length);
           this.dataList.length = 0;
@@ -71,10 +73,17 @@ export struct MyCollectionPage {
         }
         if (list.length === 0 && this.pageNum !== 0) {
           this.isMore = false;
-        } else {
+        } else if (list.length === 0 &&this.pageNum === 0) {
+          this.isRefresh=false;
+          this.isMore=false;
+        }else {
           this.isMore = true;
         }
 
+        if (!this.isMore) {
+          showToast(UtilConstants.CONST_LOAD_END_HINT);
+          return;
+        }
         list.forEach((item) => {
           this.dataList.push(item);
         })
@@ -101,8 +110,8 @@ export struct MyCollectionPage {
       }).backgroundColor(UtilConstants.CONST_UI_COLOR_white)
 
       PullToRefresh({
-        pullToRefreshType: PullToRefreshType.GRID,
-        refreshing: $isRefresh,
+        data: $dataList,
+        scroller: this.scroller,
         customList: () => {
           this.gridView();
         },
@@ -125,8 +134,6 @@ export struct MyCollectionPage {
             this.getCollectList(this.pageNum);
           })
         },
-        gridDataLength: this.dataList.length,
-        layoutOptions: this.layoutOptions
       })
     }
     .width(UtilConstants.CONST_UI_PER_100)

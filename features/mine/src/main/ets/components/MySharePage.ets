@@ -1,6 +1,6 @@
 import { HMRouter, HMRouterMgr } from '@hadss/hmrouter';
 import { NodeItem, RecyclerView, WaterFlowManager } from '@hadss/scroll_components';
-import { PullToRefresh, PullToRefreshType } from '@ohos/pulltorefresh';
+import { PullToRefresh } from '@ohos/pulltorefresh';
 import { NetError } from 'network';
 import { HmRouterPathConstants, PreferenceManager, showToast, TitleComponent, UtilConstants } from 'utils';
 import { ArticleInfo, ShareArticleResponse } from '../model/ShareArticleResponse';
@@ -89,8 +89,8 @@ export struct MySharePage {
       }).backgroundColor(UtilConstants.CONST_UI_COLOR_white)
 
       PullToRefresh({
-        pullToRefreshType: PullToRefreshType.WATERFLOW,
-        refreshing: $isRefresh,
+        data: $dataList,
+        scroller: this.scroller,
         customList: () => {
           this.getWaterFlow();
         },

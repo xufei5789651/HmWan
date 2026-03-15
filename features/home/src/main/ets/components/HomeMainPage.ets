@@ -1,4 +1,4 @@
-import { PullToRefresh, PullToRefreshType } from '@ohos/pulltorefresh';
+import { PullToRefresh } from '@ohos/pulltorefresh';
 import { NetError } from 'network';
 import { BreakpointType, HmRouterPathConstants, showToast, UtilConstants } from 'utils';
 import { ArticleListDataSource } from 'utils/src/main/ets/model/ArticleLstDataSource';
@@ -17,9 +17,10 @@ export struct HomeMainPage {
   @State lazyArticleList: ArticleListDataSource = new ArticleListDataSource();
   @State bannerList: BannerItem[] = [];
   @State isRefresh: boolean = false;
-  @State articleList: Article[] = [];
+  // @State articleList: Article[] = [];
   pageIndex: number = 0;
-  private modifier: MyListModifier = new MyListModifier();
+  // private modifier: MyListModifier = new MyListModifier();
+  private scroller: Scroller = new Scroller();
 
   aboutToAppear(): void {
     this.getBannerList();
@@ -52,7 +53,7 @@ export struct HomeMainPage {
           this.lazyArticleList.pushData(item);
         })
 
-        this.articleList = this.lazyArticleList.getDataList();
+        // this.articleList = this.lazyArticleList.getDataList();
       } else {
         showToast(`ArticleList,errorCode:${response.errorCode},errorMsg${response.errorMsg}`);
       }
@@ -64,8 +65,10 @@ export struct HomeMainPage {
   build() {
     Column() {
       PullToRefresh({
-        pullToRefreshType: PullToRefreshType.SCROLL,
-        refreshing: $isRefresh,
+        data: $lazyArticleList,
+        // pullToRefreshType: PullToRefreshType.SCROLL,
+        scroller: this.scroller,
+        // refreshing: $isRefresh,
         customList: () => {
           this.homePageList();
         },
@@ -77,7 +80,7 @@ export struct HomeMainPage {
             console.log(TAG, 'onRefresh, pageIndex:' + this.pageIndex);
           })
         },
-        modifierListAttribute: this.modifier,
+        // modifierListAttribute: this.modifier,
         onLoadMore: () => {
           return new Promise((resolve, reject) => {
             resolve('加载更多');
@@ -94,6 +97,8 @@ export struct HomeMainPage {
 
   @Builder
   homePageList() {
+    Scroll() {
+      List({ space: UtilConstants.CONST_UI_SIZE_10, scroller: this.scroller }) {
         LazyForEach(this.lazyArticleList, (article: Article) => {
           ListItem() {
             if (article.id === -1) {
@@ -102,15 +107,13 @@ export struct HomeMainPage {
                   Image(item.imagePath)
                     .width(UtilConstants.CONST_WIDTH_UI)
                     .height(UtilConstants.CONST_HEIGHT_UI)
-                    .onClick(() => {
+                    .onClick(()=>{
                       HMRouterMgr.push({
                         pageUrl: HmRouterPathConstants.PAGE_ARTICLE_DETAIL_NAV,
                         param: { link: item.url }
                       })
                     })
-                }, (item: BannerItem, index: number) => {
-                  return JSON.stringify(item.id);
-                })
+                }, (item: BannerItem, index: number) => {return JSON.stringify(item.id);})
               }
               .displayCount(new BreakpointType(1, 2, 2).getValue(this.currentWidthBreakpoint))
               .loop(true)
@@ -122,7 +125,7 @@ export struct HomeMainPage {
               .width(UtilConstants.CONST_HEIGHT_UI)
             } else {
               ItemArticle({ item: article })
-                .onClick(() => {
+                .onClick(()=>{
                   HMRouterMgr.push({
                     pageUrl: HmRouterPathConstants.PAGE_ARTICLE_DETAIL_NAV,
                     param: { link: article.link }
@@ -133,17 +136,27 @@ export struct HomeMainPage {
         }, (item: Article, index: number) => {
           return JSON.stringify(item.id);
         })
+      }
+      .cachedCount(3)
+      .edgeEffect(EdgeEffect.None)
+      .width(UtilConstants.CONST_HEIGHT_UI)
+      .height(UtilConstants.CONST_HEIGHT_UI)
+    }
+    .backgroundColor($r('app.color.color_f6f7f6'))
+    .height(UtilConstants.CONST_WIDTH_UI)
+    .width(UtilConstants.CONST_HEIGHT_UI)
+    .scrollBar(BarState.Off)
   }
 }
 
-//动态添加list组件的属性
-class MyListModifier implements AttributeModifier<ListAttribute> {
-  applyNormalAttribute(instance: ListAttribute): void {
-    instance.cachedCount(3);
-    instance.edgeEffect(EdgeEffect.None);
-    instance.backgroundColor($r('app.color.color_f6f7f6'));
-    instance.width(UtilConstants.CONST_HEIGHT_UI);
-    instance.height(UtilConstants.CONST_HEIGHT_UI);
-  }
-}
+// //动态添加list组件的属性
+// class MyListModifier implements AttributeModifier<ListAttribute> {
+//   applyNormalAttribute(instance: ListAttribute): void {
+//     instance.cachedCount(3);
+//     instance.edgeEffect(EdgeEffect.None);
+//     instance.backgroundColor($r('app.color.color_f6f7f6'));
+//     instance.width(UtilConstants.CONST_HEIGHT_UI);
+//     instance.height(UtilConstants.CONST_HEIGHT_UI);
+//   }
+// }
 
