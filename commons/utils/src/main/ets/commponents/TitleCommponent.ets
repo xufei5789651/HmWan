@@ -1,8 +1,5 @@
 import { UtilConstants } from "../common/UtilConstants";
 
-// @Builder
-// function DefaultBuilder() {
-// }
 
 @ComponentV2
 export struct TitleComponent {
@@ -23,6 +20,7 @@ export struct TitleComponent {
       }
 
       Text(this.title)
+        .fontColor($r('app.color.article_item_title'))
         .fontSize(UtilConstants.CONST_UI_FONT_SIZE_22)
         .fontWeight(FontWeight.Bold)
         .textAlign(TextAlign.Center)
@@ -38,6 +36,7 @@ export struct TitleComponent {
     .justifyContent(FlexAlign.SpaceBetween)
     .width(UtilConstants.CONST_WIDTH_UI)
     .height(UtilConstants.CONST_UI_SIZE_56)
+    .backgroundColor($r('app.color.article_item_background'))
     .padding({ left: UtilConstants.CONST_UI_SIZE_15, right: UtilConstants.CONST_UI_SIZE_15 })
   }
 }

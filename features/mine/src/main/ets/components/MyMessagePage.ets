@@ -19,7 +19,7 @@ export struct MyMessagePage {
   tabBuilder(index: number, name: string) {
     Column() {
       Text(name)
-        .fontColor(this.currentIndex === index ? UtilConstants.CONST_UI_COLOR_black :
+        .fontColor(this.currentIndex === index ? $r('app.color.my_message_tabs_font_background') :
         UtilConstants.CONST_UI_COLOR_999999)
         .fontSize(16)
         .fontWeight(this.currentIndex === index ? UtilConstants.CONST_UI_FONT_WEIGHT_700 :
@@ -29,7 +29,7 @@ export struct MyMessagePage {
 
       Divider()
         .strokeWidth(2)
-        .color(UtilConstants.CONST_UI_COLOR_67bc5e)
+        .color($r('app.color.my_message_tabs_divider_background'))
         .opacity(this.currentIndex === index ? 1 : 0)
 
     }.width(UtilConstants.CONST_UI_PER_100)

@@ -1,0 +1,24 @@
+{
+  "color": [
+    {
+      "name": "item_text_color",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "active_close_content_color",
+      "value": "#99ffffff"
+    },
+    {
+      "name": "article_item_background",
+      "value": "#000000"
+    },
+    {
+      "name": "article_item_title",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "empty_view_background",
+      "value": "#000000"
+    }
+  ]
+}

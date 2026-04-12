@@ -39,6 +39,10 @@
     {
       "name": "my_share",
       "value": "我的分享"
+    },
+    {
+      "name": "my_setting_dark",
+      "value": "深色模式"
     }
   ]
 }

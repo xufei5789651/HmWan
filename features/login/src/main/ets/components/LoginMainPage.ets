@@ -22,7 +22,6 @@ export struct LoginMainPage {
       if (response.errorCode === 0) {
         this.manager.setValue('user', response.data);
         this.loginStatus.isLogin=true;
-        // this.manager.setValue('isLogin',true);
         HMRouterMgr.replace({ navigationId: 'mainNavigation',pageUrl: HmRouterPathConstants.PAGE_URL_NAV })
       } else {
         showToast('loginForUser errorCode:' + response.errorCode + ', message:' + response.errorMsg);

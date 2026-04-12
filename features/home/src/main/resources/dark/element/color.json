@@ -1,0 +1,24 @@
+{
+  "color": [
+    {
+      "name": "color_home_item_article_background",
+      "value": "#000000"
+    },
+    {
+      "name": "color_home_item_article_title",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "color_home_item_article_author",
+      "value": "#999999"
+    },
+    {
+      "name": "color_home_main_page_swiper_indicator_background",
+      "value": "#67bc5e"
+    },
+    {
+      "name": "color_home_main_page_list_background",
+      "value": "#000000"
+    }
+  ]
+}

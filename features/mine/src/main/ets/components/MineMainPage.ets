@@ -30,6 +30,7 @@ export struct MineMainPage {
   }
 
   aboutToAppear(): void {
+    console.log(TAG,'----->aboutToAppear');
     this.getLocalUserInfo();
     if (this.loginStatus.isLogin) {
       this.getUpdateUserInfo();
@@ -100,7 +101,7 @@ export struct MineMainPage {
           .alt($r('app.media.portrait'))
           .aspectRatio(1)
           .margin({ top: UtilConstants.CONST_UI_SIZE_32 })
-          .backgroundColor(UtilConstants.CONST_UI_COLOR_white)
+          .backgroundColor($r('app.color.mine_project_background'))
           .onClick(() => {
             if (!this.loginStatus.isLogin) {
               HMRouterMgr.push({ pageUrl: HmRouterPathConstants.PAGE_LOGIN_NAV })
@@ -110,19 +111,19 @@ export struct MineMainPage {
         Text(this.user?.nickname)
           .margin({ top: UtilConstants.CONST_UI_SIZE_15 })
           .visibility(this.loginStatus.isLogin ? Visibility.Visible : Visibility.Hidden)
-          .fontColor(UtilConstants.CONST_UI_COLOR_white)
+          .fontColor($r('app.color.mine_project_font_background'))
           .fontSize(UtilConstants.CONST_UI_FONT_SIZE_18)
 
         Text('ID:' + this.user?.id)
           .margin({ top: UtilConstants.CONST_UI_SIZE_10 })
           .visibility(this.loginStatus.isLogin ? Visibility.Visible : Visibility.Hidden)
-          .fontColor(UtilConstants.CONST_UI_COLOR_white)
+          .fontColor($r('app.color.mine_project_font_background'))
           .fontSize(UtilConstants.CONST_UI_FONT_SIZE_13)
 
         Text(`等级：${this.coinInfo?.level} 排名：${this.coinInfo?.rank}`)
           .margin({ top: UtilConstants.CONST_UI_SIZE_10, bottom: UtilConstants.CONST_UI_SIZE_15 })
           .visibility(this.loginStatus.isLogin ? Visibility.Visible : Visibility.Hidden)
-          .fontColor(UtilConstants.CONST_UI_COLOR_white)
+          .fontColor($r('app.color.mine_project_font_background'))
           .fontSize(UtilConstants.CONST_UI_FONT_SIZE_15)
       }
       .width(UtilConstants.CONST_WIDTH_UI)
@@ -236,13 +237,13 @@ export struct MineMainPage {
     }
     .width(UtilConstants.CONST_WIDTH_UI)
     .height(UtilConstants.CONST_HEIGHT_UI)
-    .backgroundColor(UtilConstants.CONST_UI_COLOR_white)
+    .backgroundColor($r('app.color.mine_project_background'))
   }
 }
 
 @Extend(Text)
 function commonTextStyle() {
-  .fontColor(UtilConstants.CONST_UI_COLOR_black)
+  .fontColor($r('app.color.mine_project_item_font_color'))
   .margin({ left: UtilConstants.CONST_UI_SIZE_10 })
   .fontSize(UtilConstants.CONST_UI_FONT_SIZE_16)
 }

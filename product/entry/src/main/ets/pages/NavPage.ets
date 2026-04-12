@@ -67,7 +67,7 @@ export struct NavPage {
           $r('app.media.person_crop_circle_fill_0')))
       }
       .width('100%')
-      .backgroundColor($r('app.color.color_F3F4F5'))
+      .backgroundColor($r('app.color.nav_tab_background'))
       .barHeight(52)
       .barMode(BarMode.Fixed)
       .onAnimationStart((index: number, targetIndex: number) => {

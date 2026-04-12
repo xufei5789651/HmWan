@@ -1,20 +1,48 @@
-import { AttributeUpdater } from '@kit.ArkUI';
-import { HMDefaultGlobalAnimator, HMNavigation, HMRouter } from '@hadss/hmrouter';
+import { AttributeUpdater, window } from '@kit.ArkUI';
+import { HMDefaultGlobalAnimator, HMNavigation } from '@hadss/hmrouter';
 import { HmRouterPathConstants } from 'utils';
+import { ConfigurationConstant } from '@kit.AbilityKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+
+const TAG:string='MainPage';
 
 @Entry
 @Component
 export struct MainPage {
   modifier: PageNavModifier = new PageNavModifier();
+  @StorageProp('currentColorMode') @Watch('onCurrentColorModeChange') currentColorMode: ConfigurationConstant.ColorMode =
+    ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET;
+  windowObj?: window.Window= undefined;
+
+  async aboutToAppear() {
+    this.windowObj = await window.getLastWindow(this.getUIContext().getHostContext())!;
+  }
+
+  onCurrentColorModeChange(){
+    if (!this.windowObj) {
+      return;
+    }
+    try {
+      if (this.currentColorMode === ConfigurationConstant.ColorMode.COLOR_MODE_LIGHT) {
+        this.windowObj?.setWindowSystemBarProperties({
+          statusBarContentColor: '#000000'
+        })
+      } else if (this.currentColorMode === ConfigurationConstant.ColorMode.COLOR_MODE_DARK) {
+        this.windowObj?.setWindowSystemBarProperties({
+          statusBarContentColor: '#FFFFFF'
+        })
+      }
+    } catch (error) {
+      let err = error as BusinessError;
+      console.error(TAG, `setWindowSystemBarProperties failed, error code=${err.code}, message=${err.message}`);
+    }
+  }
 
   build() {
     Column() {
       HMNavigation({
-        navigationId: 'mainNavigation', homePageUrl: HmRouterPathConstants.PAGE_URL_NAV, options: {
-          standardAnimator: HMDefaultGlobalAnimator.STANDARD_ANIMATOR,
-          dialogAnimator: HMDefaultGlobalAnimator.DIALOG_ANIMATOR,
-          modifier: this.modifier
-        }
+        navigationId: 'mainNavigation', homePageUrl: HmRouterPathConstants.PAGE_URL_NAV, options: { standardAnimator: HMDefaultGlobalAnimator.STANDARD_ANIMATOR,
+          dialogAnimator: HMDefaultGlobalAnimator.DIALOG_ANIMATOR, modifier: this.modifier }
       })
     }
     .width('100%')

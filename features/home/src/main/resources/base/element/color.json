@@ -5,7 +5,15 @@
       "value": "#FFFFFF"
     },
     {
+      "name": "color_home_item_article_background",
+      "value": "#FFFFFF"
+    },
+    {
       "name": "color_black",
+      "value": "#000000"
+    },
+    {
+      "name": "color_home_item_article_title",
       "value": "#000000"
     },
     {
@@ -13,11 +21,23 @@
       "value": "#999999"
     },
     {
+      "name": "color_home_item_article_author",
+      "value": "#999999"
+    },
+    {
       "name": "color_67bc5e",
       "value": "#67bc5e"
     },
     {
+      "name": "color_home_main_page_swiper_indicator_background",
+      "value": "#67bc5e"
+    },
+    {
       "name": "color_f6f7f6",
+      "value": "#f6f7f6"
+    },
+    {
+      "name": "color_home_main_page_list_background",
       "value": "#f6f7f6"
     }
   ]

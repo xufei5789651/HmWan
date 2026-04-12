@@ -46,15 +46,21 @@ class WebData {
    * 资源加载回调
    */
   public onResourceLoadAction?: Function;
+  /**
+   * 是否深色模式
+   */
+  public isDark?: boolean;
 
-  constructor(url: string, controller: WebviewController) {
+  constructor(url: string, controller: WebviewController, isDark?: boolean) {
     this.url = url;
     this.controller = controller;
+    this.isDark = isDark;
   }
 }
 
 @Builder
 function webBuilder(data: WebData) {
+
   Web({ src: data.url.split('~')[0], controller: data.controller })
   // 设置是否开启文档对象模型存储接口（DOM Storage API）权限，默认未开启
     .domStorageAccess(true)
@@ -64,6 +70,8 @@ function webBuilder(data: WebData) {
     .fileAccess(true)
     // 设置是否允许加载超文本传输协议（HTTP）和超文本传输安全协议（HTTPS）混合内容，默认不允许加载HTTP和HTTPS混合内容
     .mixedMode(MixedMode.All)
+    // 深色模式
+    .darkMode(data.isDark ? WebDarkMode.On : WebDarkMode.Off)
     // 设置缓存模式
     .cacheMode(CacheMode.Default)
     // 设置是否显示纵向滚动条，包括系统默认滚动条和用户自定义滚动条。默认显示
@@ -94,10 +102,13 @@ function webBuilder(data: WebData) {
     .onResourceLoad((event) => {
       console.info(TAG, 'onResourceLoad:' + event?.url);
 
+      console.info(TAG, 'onResourceLoad isDark:' + data.isDark);
+
       onResourceLoadMap.get(data.url)?.(event.url);
     })
     .width('100%')
     .height('100%')
+    .backgroundColor(data.isDark ? Color.Black : Color.White)
 }
 
 /**
@@ -153,7 +164,7 @@ export class WebNodeController extends NodeController {
    * @param control
    * @param onPageEndAction
    */
-  initWeb(url: string, uiContext: UIContext, control: WebviewController, onPageEndAction?: Function) {
+  initWeb(url: string, uiContext: UIContext, control: WebviewController, isDark?:boolean,onPageEndAction?: Function) {
     if (this.rootNode != null) {
       return;
     }
@@ -161,7 +172,7 @@ export class WebNodeController extends NodeController {
     this.rootNode = new BuilderNode(uiContext);
     this.rootNode.dispose()
     // Creating an Offline Component
-    this.rootNode.build(wrap, { url: url, controller: control });
+    this.rootNode.build(wrap, { url: url, controller: control,isDark:isDark});
   }
 }
 

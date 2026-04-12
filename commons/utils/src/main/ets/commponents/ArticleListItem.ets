@@ -28,7 +28,7 @@ export struct ArticleListItem {
 
         Text(this.item.title)
           .id('title')
-          .fontColor(UtilConstants.CONST_UI_COLOR_black)
+          .fontColor($r('app.color.article_item_title'))
           .fontWeight(FontWeight.Bold)
           .maxLines(1)
           .textAlign(TextAlign.Start)
@@ -70,7 +70,7 @@ export struct ArticleListItem {
       .width(UtilConstants.CONST_WIDTH_UI)
       .height(UtilConstants.CONST_UI_SIZE_80)
       .borderRadius(UtilConstants.CONST_UI_SIZE_15)
-      .backgroundColor(UtilConstants.CONST_UI_COLOR_white)
+      .backgroundColor($r('app.color.article_item_background'))
     }
     .padding({
       top: UtilConstants.CONST_UI_SIZE_5,

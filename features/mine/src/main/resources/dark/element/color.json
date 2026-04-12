@@ -1,0 +1,52 @@
+{
+  "color": [
+    {
+      "name": "mine_project_item_font_color",
+      "value": "#ffffff"
+    },
+    {
+      "name": "mine_project_background",
+      "value": "#000000"
+    },
+    {
+      "name": "mine_project_font_background",
+      "value": "#000000"
+    },
+    {
+      "name": "my_share_background",
+      "value": "#000000"
+    },
+    {
+      "name": "my_share_item_background",
+      "value": "#000000"
+    },
+    {
+      "name": "my_message_tabs_font_background",
+      "value": "#ffffff"
+    },
+    {
+      "name": "my_message_tabs_divider_background",
+      "value": "#ffffff"
+    },
+    {
+      "name": "my_message_item_background",
+      "value": "#000000"
+    },
+    {
+      "name": "my_setting_item_font_color",
+      "value": "#ffffff"
+    },
+    {
+      "name": "my_setting_background",
+      "value": "#000000"
+    },
+    {
+      "name": "my_setting_item_background",
+      "value": "#000000"
+    },
+    {
+      "name": "button_background",
+      "value": "#F3F4F5"
+    }
+  ]
+}

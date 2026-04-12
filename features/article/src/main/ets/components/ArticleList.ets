@@ -23,9 +23,7 @@ export struct ArticleList {
   @State lazyArticleList: ArticleListDataSource = new ArticleListDataSource();
   @State isRefresh: boolean = false;
   pageIndex: number = 1;
-  // @State articleList: Article[] = [];
   private scroller: Scroller = new Scroller();
-  // private modifier: MyListModifier = new MyListModifier(new BreakpointType(1, 2, 3).getValue(this.currentWidthBreakpoint));
 
   aboutToAppear(): void {
     this.getProjectArticleList(this.tabId, this.pageIndex);
@@ -49,7 +47,6 @@ export struct ArticleList {
           this.lazyArticleList.pushData(item);
         })
 
-        // this.articleList = this.lazyArticleList.getDataList();
         console.log(TAG, `data length:${response.data.size}`);
       } else {
         showToast('getProjectArticleList errorCode:' + response.errorCode);
@@ -62,9 +59,7 @@ export struct ArticleList {
   build() {
     Column() {
       PullToRefresh({
-        // pullToRefreshType: PullToRefreshType.LIST,
         data: $lazyArticleList,
-        // refreshing: $isRefresh,
         scroller: this.scroller,
         customList: () => {
           this.articleListPage();
@@ -77,7 +72,6 @@ export struct ArticleList {
             console.log(TAG, 'onRefresh, pageIndex:' + this.pageIndex);
           })
         },
-        // modifierListAttribute: this.modifier,
         onLoadMore: () => {
           return new Promise((resolve, reject) => {
             if (this.isMore) {
@@ -118,25 +112,6 @@ export struct ArticleList {
     .edgeEffect(EdgeEffect.None)
     .width(UtilConstants.CONST_HEIGHT_UI)
     .height(UtilConstants.CONST_HEIGHT_UI)
-    .backgroundColor(UtilConstants.CONST_UI_COLOR_f6f7f6)
+    .backgroundColor($r('app.color.article_tabs_line_color'))
   }
 }
-
-// //动态添加list组件的属性
-// class MyListModifier implements AttributeModifier<ListAttribute> {
-//
-//   private lanes :number;
-//
-//   constructor(lanes:number) {
-//     this.lanes=lanes;
-//   }
-//
-//   applyNormalAttribute(instance: ListAttribute): void {
-//     instance.cachedCount(3);
-//     instance.edgeEffect(EdgeEffect.None);
-//     instance.lanes(this.lanes);
-//     instance.backgroundColor(UtilConstants.CONST_UI_COLOR_f6f7f6);
-//     instance.width(UtilConstants.CONST_HEIGHT_UI);
-//     instance.height(UtilConstants.CONST_HEIGHT_UI);
-//   }
-// }

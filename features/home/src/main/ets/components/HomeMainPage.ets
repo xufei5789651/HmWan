@@ -17,9 +17,7 @@ export struct HomeMainPage {
   @State lazyArticleList: ArticleListDataSource = new ArticleListDataSource();
   @State bannerList: BannerItem[] = [];
   @State isRefresh: boolean = false;
-  // @State articleList: Article[] = [];
   pageIndex: number = 0;
-  // private modifier: MyListModifier = new MyListModifier();
   private scroller: Scroller = new Scroller();
 
   aboutToAppear(): void {
@@ -53,7 +51,6 @@ export struct HomeMainPage {
           this.lazyArticleList.pushData(item);
         })
 
-        // this.articleList = this.lazyArticleList.getDataList();
       } else {
         showToast(`ArticleList,errorCode:${response.errorCode},errorMsg${response.errorMsg}`);
       }
@@ -66,9 +63,7 @@ export struct HomeMainPage {
     Column() {
       PullToRefresh({
         data: $lazyArticleList,
-        // pullToRefreshType: PullToRefreshType.SCROLL,
         scroller: this.scroller,
-        // refreshing: $isRefresh,
         customList: () => {
           this.homePageList();
         },
@@ -80,7 +75,6 @@ export struct HomeMainPage {
             console.log(TAG, 'onRefresh, pageIndex:' + this.pageIndex);
           })
         },
-        // modifierListAttribute: this.modifier,
         onLoadMore: () => {
           return new Promise((resolve, reject) => {
             resolve('加载更多');
@@ -120,7 +114,7 @@ export struct HomeMainPage {
               .prevMargin(new BreakpointType(0, 12, 12).getValue(this.currentWidthBreakpoint))
               .nextMargin(new BreakpointType(0, 12, 12).getValue(this.currentWidthBreakpoint))
               .autoPlay(true)
-              .indicator(Indicator.dot().selectedColor($r('app.color.color_67bc5e')))
+              .indicator(Indicator.dot().selectedColor($r('app.color.color_home_main_page_swiper_indicator_background')))
               .height(UtilConstants.CONST_UI_PER_30)
               .width(UtilConstants.CONST_HEIGHT_UI)
             } else {
@@ -142,21 +136,11 @@ export struct HomeMainPage {
       .width(UtilConstants.CONST_HEIGHT_UI)
       .height(UtilConstants.CONST_HEIGHT_UI)
     }
-    .backgroundColor($r('app.color.color_f6f7f6'))
+    .backgroundColor($r('app.color.color_home_main_page_list_background'))
     .height(UtilConstants.CONST_WIDTH_UI)
     .width(UtilConstants.CONST_HEIGHT_UI)
     .scrollBar(BarState.Off)
   }
 }
 
-// //动态添加list组件的属性
-// class MyListModifier implements AttributeModifier<ListAttribute> {
-//   applyNormalAttribute(instance: ListAttribute): void {
-//     instance.cachedCount(3);
-//     instance.edgeEffect(EdgeEffect.None);
-//     instance.backgroundColor($r('app.color.color_f6f7f6'));
-//     instance.width(UtilConstants.CONST_HEIGHT_UI);
-//     instance.height(UtilConstants.CONST_HEIGHT_UI);
-//   }
-// }
 

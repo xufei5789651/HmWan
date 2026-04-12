@@ -2,12 +2,19 @@ import { HMRouter, HMRouterMgr } from '@hadss/hmrouter';
 import { NetError } from 'network';
 import {
   ActiveCloseBuilder,
-  HmRouterPathConstants, LoginStatus, PreferenceManager, showToast, UtilConstants } from 'utils';
+  HmRouterPathConstants,
+  LightDarkStatus,
+  LoginStatus,
+  PreferenceManager,
+  showToast,
+  UtilConstants
+} from 'utils';
 import { LoginOutResponse } from '../model/LogoutModel';
 import { MineNetFunc } from '../net/MineNetFunc';
 import { PersistenceV2 } from '@kit.ArkUI';
 import { DialogAction, DialogHub } from '@hadss/dialoghub';
 import { ActiveCloseParams } from 'utils/src/main/ets/dialoghub/ActiveCloseBuilder';
+import { common, ConfigurationConstant } from '@kit.AbilityKit';
 
 const TAG = 'MineSettingPage'
 
@@ -16,6 +23,8 @@ const TAG = 'MineSettingPage'
 export struct MineSettingPage {
   manager: PreferenceManager = PreferenceManager.getInstance();
   @Local loginStatus: LoginStatus = PersistenceV2.connect(LoginStatus, 'loginStatus', () => new LoginStatus())!;
+  @Local lightDarkStatus: LightDarkStatus = PersistenceV2.globalConnect({type:LightDarkStatus,key:'lightDarkStatus',defaultCreator:()=>new LightDarkStatus()})!;
+  mContext = this.getUIContext().getHostContext() as common.UIAbilityContext;
 
   logOut() {
     MineNetFunc.logOut().then((response: LoginOutResponse) => {
@@ -43,24 +52,55 @@ export struct MineSettingPage {
           })
 
         Text($r('app.string.mine_name_setting'))
-          .fontColor(UtilConstants.CONST_UI_COLOR_black)
+          .fontColor($r('app.color.mine_project_item_font_color'))
           .fontSize(UtilConstants.CONST_UI_FONT_SIZE_16)
           .margin({ left: UtilConstants.CONST_UI_PER_35 })
       }
       .height(UtilConstants.CONST_UI_SIZE_40)
       .width(UtilConstants.CONST_UI_PER_100)
-      .backgroundColor(UtilConstants.CONST_UI_COLOR_white)
+      .backgroundColor($r('app.color.mine_project_background'))
 
-      Blank()
+      Column() {
+        Row() {
+          Text($r('app.string.my_setting_dark'))
+            .fontColor($r('app.color.my_setting_item_font_color'))
+            .fontSize(UtilConstants.CONST_UI_FONT_SIZE_16)
+
+          Toggle({ type: ToggleType.Switch, isOn: this.lightDarkStatus.isDark })
+            .selectedColor(UtilConstants.CONST_UI_COLOR_67bc5e)
+            .switchPointColor(UtilConstants.CONST_UI_COLOR_white)
+            .onChange((isOn: boolean) => {
+              console.info(TAG, 'Toggle isOn:' + isOn);
+              if (isOn) {
+                this.manager.setValue('isDark',true);
+                this.mContext.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_DARK)
+                this.lightDarkStatus.isDark=true;
+              } else {
+                this.manager.setValue('isDark',false);
+                this.mContext.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_LIGHT)
+                this.lightDarkStatus.isDark=false;
+              }
+            })
+        }
+        .width(UtilConstants.CONST_UI_PER_100)
+        .padding({ left: UtilConstants.CONST_UI_PER_3, right: UtilConstants.CONST_UI_PER_3 })
+        .margin({ top: UtilConstants.CONST_UI_SIZE_5, bottom: UtilConstants.CONST_UI_SIZE_5 })
+        .justifyContent(FlexAlign.SpaceBetween)
+        .height(UtilConstants.CONST_UI_SIZE_40)
+        .backgroundColor($r('app.color.my_setting_item_background'))
+      }
+      .width(UtilConstants.CONST_UI_PER_100)
+      .layoutWeight(UtilConstants.CONST_UI_SIZE_1)
+      .backgroundColor($r('app.color.my_setting_background'))
 
       Button($r('app.string.mine_setting_logout'))
         .width(UtilConstants.CONST_UI_PER_80)
         .height(UtilConstants.CONST_UI_SIZE_40)
         .fontColor(UtilConstants.CONST_UI_COLOR_67bc5e)
         .fontSize(UtilConstants.CONST_UI_FONT_SIZE_16)
-        .backgroundColor(UtilConstants.CONST_UI_COLOR_white)
+        .backgroundColor($r('app.color.button_background'))
         .visibility(this.loginStatus.isLogin ? Visibility.Visible : Visibility.None)
-        .margin({ bottom: UtilConstants.CONST_UI_PER_30 })
+        .margin({ bottom: UtilConstants.CONST_UI_PER_10 })
         .alignSelf(ItemAlign.Center)
         .onClick(() => {
           this.confirmDialog()
@@ -68,7 +108,7 @@ export struct MineSettingPage {
     }
     .width(UtilConstants.CONST_UI_PER_100)
     .height(UtilConstants.CONST_UI_PER_100)
-    .backgroundColor(UtilConstants.CONST_UI_COLOR_F3F4F5)
+    .backgroundColor($r('app.color.my_setting_background'))
   }
 
   confirmDialog() {
@@ -88,7 +128,7 @@ export struct MineSettingPage {
       .setConfig({ dialogBehavior: { isModal: true, autoDismiss: false, passThroughGesture: false } })
       .setStyle({
         radius: UtilConstants.CONST_UI_SIZE_32,
-        backgroundColor: Color.White,
+        backgroundColor: $r('app.color.mine_project_background'),
       })
       .build();
 

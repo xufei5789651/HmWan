@@ -116,7 +116,7 @@ export struct MySharePage {
       })
     }
     .width(UtilConstants.CONST_UI_PER_100)
-    .backgroundColor(UtilConstants.CONST_UI_COLOR_f6f7f6)
+    .backgroundColor($r('app.color.my_share_background'))
   }
 }
 

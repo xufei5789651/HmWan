@@ -39,6 +39,10 @@
     {
       "name": "my_share",
       "value": "My Share"
+    },
+    {
+      "name": "my_setting_dark",
+      "value": "DarkMode"
     }
   ]
 }

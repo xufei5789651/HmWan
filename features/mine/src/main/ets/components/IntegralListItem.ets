@@ -11,7 +11,7 @@ export struct IntegralListItem {
       Text(`${this.item?.reason}`)
         .font({ size: UtilConstants.CONST_UI_FONT_SIZE_18, style: FontStyle.Italic },
           { enableVariableFontWeight: true })
-        .fontColor(UtilConstants.CONST_UI_COLOR_black)
+        .fontColor($r('app.color.mine_project_item_font_color'))
         .alignRules({
           top: { anchor: "__container__", align: VerticalAlign.Top },
           start: { anchor: "__container__", align: HorizontalAlign.Start }
@@ -39,7 +39,7 @@ export struct IntegralListItem {
 
       Divider().vertical(false)
         .strokeWidth(UtilConstants.CONST_UI_SIZE_DIVIDER)
-        .color(UtilConstants.CONST_UI_COLOR_black)
+        .color($r('app.color.mine_project_item_font_color'))
         .margin({ top: UtilConstants.CONST_UI_SIZE_10 })
         .alignRules({
           top: { anchor: "date", align: VerticalAlign.Bottom },
@@ -52,6 +52,6 @@ export struct IntegralListItem {
       left: UtilConstants.CONST_UI_SIZE_10,
       right: UtilConstants.CONST_UI_SIZE_10
     })
-    .backgroundColor(UtilConstants.CONST_UI_COLOR_white)
+    .backgroundColor($r('app.color.mine_project_background'))
   }
 }

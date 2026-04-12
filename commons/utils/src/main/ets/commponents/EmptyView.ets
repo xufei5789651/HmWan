@@ -13,7 +13,7 @@ export function emptyView() {
       .fontColor(UtilConstants.CONST_UI_COLOR_999999)
   }
   .justifyContent(FlexAlign.Center)
-  .backgroundColor(UtilConstants.CONST_UI_COLOR_F3F4F5)
+  .backgroundColor($r('app.color.empty_view_background'))
   .width(UtilConstants.CONST_UI_PER_100)
   .height(UtilConstants.CONST_UI_PER_100)
 }

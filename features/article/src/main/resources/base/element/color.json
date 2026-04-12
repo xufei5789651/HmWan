@@ -1,0 +1,24 @@
+{
+  "color": [
+    {
+      "name": "tabs_item_font_color",
+      "value": "#000000"
+    },
+    {
+      "name": "article_tabs_background_color",
+      "value": "#ffffff"
+    },
+    {
+      "name": "article_tabs_line_color",
+      "value": "#f6f7f6"
+    },
+    {
+      "name": "article_tabs_divider_color",
+      "value": "#67bc5e"
+    },
+    {
+      "name": "article_background_color",
+      "value": "#F3F4F5"
+    }
+  ]
+}

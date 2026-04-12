@@ -14,14 +14,14 @@ import { webview } from "@kit.ArkWeb";
  * @param url
  * @param uiContext
  */
-export function createNWeb(url: string, uiContext: UIContext) {
+export function createNWeb(url: string, uiContext: UIContext, isDark?: boolean) {
   if (nodeMap.has(url)) {
     return;
   }
   let baseNode = new WebNodeController();
   let controller = new webview.WebviewController();
 
-  baseNode.initWeb(url, uiContext, controller);
+  baseNode.initWeb(url, uiContext, controller, isDark);
   // Save the controller of the web page to the map so that the controller can be used when the web page is returned.
   controllerMap.set(url, controller)
   nodeMap.set(url, baseNode);

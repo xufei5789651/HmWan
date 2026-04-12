@@ -12,7 +12,7 @@ export struct ShareArticleItem {
         .maxLines(2)
         .textOverflow({ overflow: TextOverflow.Ellipsis })
         .font({ size: UtilConstants.CONST_UI_FONT_SIZE_15, weight: FontWeight.Bold })
-        .fontColor(UtilConstants.CONST_UI_COLOR_black)
+        .fontColor($r('app.color.mine_project_item_font_color'))
         .margin({
           top: UtilConstants.CONST_UI_SIZE_10,
           left: UtilConstants.CONST_UI_SIZE_10,
@@ -47,6 +47,6 @@ export struct ShareArticleItem {
     })
     .alignItems(HorizontalAlign.Start)
     .width(UtilConstants.CONST_UI_PER_100)
-    .backgroundColor(UtilConstants.CONST_UI_COLOR_white)
+    .backgroundColor($r('app.color.my_share_item_background'))
   }
 }

@@ -15,6 +15,18 @@
     {
       "name": "active_close_content_color",
       "value": "#99000000"
+    },
+    {
+      "name": "article_item_background",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "article_item_title",
+      "value": "#000000"
+    },
+    {
+      "name": "empty_view_background",
+      "value": "#F3F4F5"
     }
   ]
 }

@@ -1,6 +1,15 @@
 import { HMRouter, HMRouterMgr } from "@hadss/hmrouter"
-import { createNWeb, HmRouterPathConstants, shareLink, TitleComponent, UtilConstants, WebComponent } from "utils"
+import {
+  createNWeb,
+  HmRouterPathConstants,
+  LightDarkStatus,
+  shareLink,
+  TitleComponent,
+  UtilConstants,
+  WebComponent
+} from "utils"
 import { common } from "@kit.AbilityKit";
+import { PersistenceV2 } from "@kit.ArkUI";
 
 const TAG: string = 'ArticleDetailPage';
 
@@ -13,13 +22,19 @@ export struct ArticleDetailPage {
   @Local title: string = '';
   @Local desc: string = '';
   context: common.UIAbilityContext = this.getUIContext().getHostContext() as common.UIAbilityContext;
+  @Local lightDarkStatus: LightDarkStatus = PersistenceV2.globalConnect({
+    type: LightDarkStatus,
+    key: 'lightDarkStatus',
+    defaultCreator: () => new LightDarkStatus()
+  })!;
 
   aboutToAppear(): void {
     this.param = HMRouterMgr.getCurrentParam() as ESObject;
     this.url = this.param.link;
     this.title = this.param.title;
     this.desc = this.param.desc;
-    createNWeb(this.url, this.getUIContext());
+    createNWeb(this.url, this.getUIContext(), this.lightDarkStatus.isDark);
+    console.log(TAG,'isDark:'+this.lightDarkStatus.isDark);
   }
 
   build() {

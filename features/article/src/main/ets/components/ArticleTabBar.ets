@@ -17,12 +17,13 @@ export struct ArticleTabBar {
         .margin({ top: UtilConstants.CONST_UI_SIZE_5, bottom: UtilConstants.CONST_UI_SIZE_5 })
         .fontSize(this.currentIndex === index ? UtilConstants.CONST_UI_FONT_SIZE_22 :
         UtilConstants.CONST_UI_FONT_SIZE_18)
+        .fontColor($r('app.color.tabs_item_font_color'))
         .fontWeight(this.currentIndex === index ? UtilConstants.CONST_UI_FONT_WEIGHT_700 :
         UtilConstants.CONST_UI_FONT_WEIGHT_400)
 
       Divider()
         .strokeWidth(UtilConstants.CONST_UI_SIZE_2)
-        .color(UtilConstants.CONST_UI_COLOR_67bc5e)
+        .color($r('app.color.article_tabs_divider_color'))
         .width(UtilConstants.CONST_UI_SIZE_45)
         .lineCap(LineCapStyle.Round)
         .opacity(this.currentIndex === index ? 1 : 0)
@@ -43,9 +44,10 @@ export struct ArticleTabBar {
     }
     .barMode(BarMode.Scrollable)
     .vertical(false)
+    .backgroundColor($r('app.color.article_tabs_background_color'))
     .barWidth(UtilConstants.CONST_WIDTH_UI)
     .barHeight(UtilConstants.CONST_UI_SIZE_56)
-    .divider({ color: UtilConstants.CONST_UI_COLOR_f6f7f6, strokeWidth: UtilConstants.CONST_UI_SIZE_1 })
+    .divider({ color: $r('app.color.article_tabs_line_color'), strokeWidth: UtilConstants.CONST_UI_SIZE_1 })
     .onChange((index: number) => {
       this.currentIndex=index;
     })

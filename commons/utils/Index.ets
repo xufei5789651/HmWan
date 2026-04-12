@@ -34,6 +34,8 @@ export { LoginResponse, User } from './src/main/ets/model/LoginModel'
 
 export { LoginStatus } from './src/main/ets/model/LoginStatus'
 
+export { LightDarkStatus } from './src/main/ets/model/LightDarkStatus'
+
 export { LoadingStatus } from './src/main/ets/model/LoadingStatus'
 
 export { ActiveCloseBuilder } from './src/main/ets/dialoghub/ActiveCloseBuilder'

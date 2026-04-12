@@ -41,7 +41,7 @@ export struct MessageListItem {
         .id('niceDate')
 
       Text(this.message.title)
-        .fontColor(UtilConstants.CONST_UI_COLOR_black)
+        .fontColor($r('app.color.mine_project_item_font_color'))
         .fontSize(UtilConstants.CONST_UI_FONT_SIZE_16)
         .margin({ left: UtilConstants.CONST_UI_SIZE_8, top: UtilConstants.CONST_UI_SIZE_10 })
         .fontWeight(FontWeight.Bold)
@@ -74,7 +74,7 @@ export struct MessageListItem {
         })
         .id('message')
     }
-    .backgroundColor(UtilConstants.CONST_UI_COLOR_white)
+    .backgroundColor($r('app.color.my_message_item_background'))
     .borderRadius(UtilConstants.CONST_UI_SIZE_15)
     .constraintSize({ minHeight: UtilConstants.CONST_UI_SIZE_35, maxHeight: UtilConstants.CONST_UI_SIZE_150 })
     .width(UtilConstants.CONST_UI_PER_100)

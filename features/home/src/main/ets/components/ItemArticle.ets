@@ -10,7 +10,7 @@ export struct ItemArticle {
     Stack() {
       Column() {
         Text(this.item.title)
-          .fontColor($r('app.color.color_black'))
+          .fontColor($r('app.color.color_home_item_article_title'))
           .fontWeight(FontWeight.Bold)
           .fontSize(16)
           .margin({ left: UtilConstants.CONST_UI_SIZE_10, top: UtilConstants.CONST_UI_SIZE_10 })
@@ -18,7 +18,7 @@ export struct ItemArticle {
 
         Row() {
           Text(this.item.author === '' ? this.item.shareUser : this.item.author)
-            .fontColor($r('app.color.color_999999'))
+            .fontColor($r('app.color.color_home_item_article_author'))
             .fontWeight(FontWeight.Bold)
             .fontSize(14)
 
@@ -27,17 +27,17 @@ export struct ItemArticle {
             Span(" / ")
             Span(this.item.chapterName)
           }
-          .fontColor($r('app.color.color_999999'))
+          .fontColor($r('app.color.color_home_item_article_author'))
           .fontSize(14)
           .margin({ left: 10 })
 
           Blank()
 
-          Image($r('app.media.share'))
-            .objectFit(ImageFit.Contain)
-            .width(16)
-            .margin({ right: 15 })
-            .aspectRatio(1)
+          // Image($r('app.media.share'))
+          //   .objectFit(ImageFit.Contain)
+          //   .width(16)
+          //   .margin({ right: 15 })
+          //   .aspectRatio(1)
         }
         .alignItems(VerticalAlign.Center)
         .margin({
@@ -49,7 +49,7 @@ export struct ItemArticle {
       }
       .width(UtilConstants.CONST_WIDTH_UI)
       .borderRadius(UtilConstants.CONST_UI_SIZE_15)
-      .backgroundColor(UtilConstants.CONST_UI_COLOR_white)
+      .backgroundColor($r('app.color.color_home_item_article_background'))
     }
     .padding({
       top: UtilConstants.CONST_UI_SIZE_5,

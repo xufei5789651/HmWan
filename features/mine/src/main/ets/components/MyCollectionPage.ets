@@ -107,7 +107,7 @@ export struct MyCollectionPage {
         title: $r('app.string.my_collect'), onBackClick: () => {
           HMRouterMgr.pop()
         }
-      }).backgroundColor(UtilConstants.CONST_UI_COLOR_white)
+      })
 
       PullToRefresh({
         data: $dataList,
@@ -137,7 +137,7 @@ export struct MyCollectionPage {
       })
     }
     .width(UtilConstants.CONST_UI_PER_100)
-    .backgroundColor(UtilConstants.CONST_UI_COLOR_f6f7f6)
+    .backgroundColor($r('app.color.my_share_background'))
   }
 }
 
