@@ -7,6 +7,7 @@ import { UserIntegralListDataSource } from "../model/UserIntegralListDataSource"
 import { IntegralInfo, UserIntegralResponse } from "../model/UserIntegralResponse";
 import { MineNetFunc } from "../net/MineNetFunc";
 import { IntegralListItem } from "./IntegralListItem";
+import { common } from "@kit.AbilityKit";
 
 const TAG: string = 'MyIntegralPage';
 
@@ -25,6 +26,7 @@ export struct MyIntegralPage {
   @Local isMore: boolean = true;
   @Local isRefresh:boolean =true;
   @Local loadingStatus:LoadingStatus=LoadingStatus.LOADINGSTART;
+  mContext = this.getUIContext().getHostContext() as common.UIAbilityContext;
 
   aboutToAppear(): void {
     this.param = HMRouterMgr.getCurrentParam() as ESObject;
@@ -37,7 +39,7 @@ export struct MyIntegralPage {
       this.loadingStatus=LoadingStatus.LOADINGSTART;
     }
 
-    let cookie = await this.manager.getValue('cookie') as string;
+    let cookie = await this.manager.getValue(this.mContext,'cookie') as string;
     MineNetFunc.getUserIntegral(cookie, pageNum).then((response: UserIntegralResponse) => {
       
       if (response.errorCode === 0) {

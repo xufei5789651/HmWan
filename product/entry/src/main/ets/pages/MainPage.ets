@@ -1,7 +1,7 @@
 import { AttributeUpdater, window } from '@kit.ArkUI';
 import { HMDefaultGlobalAnimator, HMNavigation } from '@hadss/hmrouter';
-import { HmRouterPathConstants } from 'utils';
-import { ConfigurationConstant } from '@kit.AbilityKit';
+import { HmRouterPathConstants, PreferenceManager } from 'utils';
+import { common, ConfigurationConstant } from '@kit.AbilityKit';
 import { BusinessError } from '@kit.BasicServicesKit';
 
 const TAG:string='MainPage';
@@ -13,9 +13,10 @@ export struct MainPage {
   @StorageProp('currentColorMode') @Watch('onCurrentColorModeChange') currentColorMode: ConfigurationConstant.ColorMode =
     ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET;
   windowObj?: window.Window= undefined;
+  mContext = this.getUIContext().getHostContext() as common.UIAbilityContext;
 
   async aboutToAppear() {
-    this.windowObj = await window.getLastWindow(this.getUIContext().getHostContext())!;
+    this.windowObj = await window.getLastWindow(this.mContext)!;
   }
 
   onCurrentColorModeChange(){

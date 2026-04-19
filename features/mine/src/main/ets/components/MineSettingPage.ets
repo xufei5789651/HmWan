@@ -2,6 +2,7 @@ import { HMRouter, HMRouterMgr } from '@hadss/hmrouter';
 import { NetError } from 'network';
 import {
   ActiveCloseBuilder,
+  GlobalContext,
   HmRouterPathConstants,
   LightDarkStatus,
   LoginStatus,
@@ -21,15 +22,21 @@ const TAG = 'MineSettingPage'
 @HMRouter({ pageUrl: HmRouterPathConstants.PAGE_SETTING_NAV })
 @ComponentV2
 export struct MineSettingPage {
+  globalContext:common.UIAbilityContext=GlobalContext.getInstance().getContext('mainContext')!;
   manager: PreferenceManager = PreferenceManager.getInstance();
   @Local loginStatus: LoginStatus = PersistenceV2.connect(LoginStatus, 'loginStatus', () => new LoginStatus())!;
   @Local lightDarkStatus: LightDarkStatus = PersistenceV2.globalConnect({type:LightDarkStatus,key:'lightDarkStatus',defaultCreator:()=>new LightDarkStatus()})!;
   mContext = this.getUIContext().getHostContext() as common.UIAbilityContext;
 
+  async aboutToAppear(): Promise<void> {
+    let isDark = await this.manager.getValue(this.mContext,'dark') as string;
+    console.log(TAG,'aboutToAppear isDark:'+isDark);
+  }
+
   logOut() {
     MineNetFunc.logOut().then((response: LoginOutResponse) => {
       if (response.errorCode === 0) {
-        this.manager.deleteValue('user')
+        this.manager.deleteValue(this.mContext,'user')
         this.loginStatus.isLogin = false;
         showToast(`退出成功！`);
       } else {
@@ -72,11 +79,11 @@ export struct MineSettingPage {
             .onChange((isOn: boolean) => {
               console.info(TAG, 'Toggle isOn:' + isOn);
               if (isOn) {
-                this.manager.setValue('isDark',true);
+                this.manager.setValue(this.globalContext,'dark','1');
                 this.mContext.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_DARK)
                 this.lightDarkStatus.isDark=true;
               } else {
-                this.manager.setValue('isDark',false);
+                this.manager.setValue(this.globalContext,'dark','0');
                 this.mContext.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_LIGHT)
                 this.lightDarkStatus.isDark=false;
               }

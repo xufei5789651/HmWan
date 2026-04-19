@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestCo
 import { JSON } from '@kit.ArkTS';
 import { NetError } from '../param/NetError';
 import { PreferenceManager } from 'utils';
+import { Context } from '@kit.AbilityKit';
 
 const TAG: string = 'AxiosManager';
 const BASEURL: string = 'https://www.wanandroid.com/';
@@ -13,6 +14,7 @@ export class AxiosManager {
   private static instance: AxiosManager | null = null;
   private axiosInstance: AxiosInstance | null = null;
   private manager: PreferenceManager = PreferenceManager.getInstance();
+  private mContext?:Context=AppStorage.get('mContext');
 
   private constructor() {
     this.createAxiosConfig();
@@ -24,6 +26,7 @@ export class AxiosManager {
     }
     return AxiosManager.instance;
   }
+
 
   private createAxiosConfig() {
     this.axiosInstance = axios.create({
@@ -50,7 +53,7 @@ export class AxiosManager {
     this.axiosInstance.interceptors.response.use((response: AxiosResponse) => {
       if (response.config.url === 'user/login') {
         let cookieStr = JSON.stringify(response.headers['set-cookie'] as string[]);
-        this.manager.setValue('cookie', cookieStr);
+        this.manager.setValue(this.mContext!,'cookie', cookieStr);
         console.warn(TAG, `cookie:${cookieStr}`);
       }
       console.log(TAG, `response:::${JSON.stringify(response)}`);

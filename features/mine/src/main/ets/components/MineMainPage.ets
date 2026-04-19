@@ -5,6 +5,7 @@ import { MineNetFunc } from '../net/MineNetFunc';
 import { CoinInfo, UserInfoResponse } from '../model/UserInfoResponse';
 import { NetError } from 'network';
 import { UnBadgeNumResponse } from '../model/UnBadgeNumResponse';
+import { common } from '@kit.AbilityKit';
 
 const TAG: string = 'MineMainPage';
 
@@ -20,6 +21,7 @@ export struct MineMainPage {
   @Local coinInfo: CoinInfo | null = null;
   @Local loginStatus: LoginStatus = PersistenceV2.connect(LoginStatus, 'loginStatus', () => new LoginStatus())!;
   @Local badgeCount: number = 0;
+  mContext = this.getUIContext().getHostContext() as common.UIAbilityContext;
 
   @Monitor('loginStatus.isLogin')
   updateUserInfo(monitor: IMonitor) {
@@ -39,17 +41,17 @@ export struct MineMainPage {
   }
 
   async getLocalUserInfo() {
-    this.user = await this.manager.getValue<User>('user');
-    console.log(TAG, 'isLogin:::' + this.loginStatus.isLogin);
+    this.user = await this.manager.getValue<User>(this.mContext,'user');
+    console.log(TAG, 'getLocalUserInfo user:' + this.user?.nickname);
   }
 
   async getUpdateUserInfo() {
-    let cookie = await this.manager.getValue('cookie') as string;
+    let cookie = await this.manager.getValue(this.mContext,'cookie') as string;
     MineNetFunc.getUserInfo(cookie).then((response: UserInfoResponse) => {
       if (response.errorCode === 0) {
         this.user = response.data.userInfo;
         this.coinInfo = response.data.coinInfo;
-        this.manager.setValue<User>('user', response.data.userInfo);
+        this.manager.setValue<User>(this.mContext,'user', response.data.userInfo);
       } else {
         showToast(`getUpdateUserInfo,errorCode:${response.errorCode},errorMsg${response.errorMsg}`);
       }
@@ -59,7 +61,7 @@ export struct MineMainPage {
   }
 
   async getUnBadgeNum() {
-    let cookie = await this.manager.getValue('cookie') as string;
+    let cookie = await this.manager.getValue(this.mContext,'cookie') as string;
     MineNetFunc.unBadgeNum(cookie).then((response: UnBadgeNumResponse) => {
       if (response.errorCode === 0) {
         this.badgeCount=response.data;

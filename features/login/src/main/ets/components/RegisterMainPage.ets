@@ -3,6 +3,7 @@ import { NetError } from "network";
 import { HmRouterPathConstants, PreferenceManager, showToast, UtilConstants } from "utils";
 import { LoginNetFunc } from "../net/LoginNetFunc";
 import { LoginRegisterParam } from "../net/LoginRegisterParam";
+import { common } from "@kit.AbilityKit";
 
 const TAG: string = 'RegisterMainPage';
 
@@ -13,12 +14,13 @@ export struct RegisterMainPage {
   @State userName: string = '';
   @State password: string = '';
   @State repeatPassword: string = '';
+  mContext = this.getUIContext().getHostContext() as common.UIAbilityContext;
 
   registerForUser(){
     let registerParam: LoginRegisterParam = { username: this.userName, password: this.password ,repassword:this.repeatPassword};
     LoginNetFunc.register(registerParam).then((response) => {
       if (response.errorCode === 0) {
-        this.manager.setValue('user', response.data);
+        this.manager.setValue(this.mContext,'user', response.data);
         PersistentStorage.persistProp('isLogin',true);
         HMRouterMgr.replace({ navigationId: 'mainNavigation', pageUrl: HmRouterPathConstants.PAGE_URL_NAV })
       } else {

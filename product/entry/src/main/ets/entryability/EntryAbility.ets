@@ -1,9 +1,9 @@
 import { AbilityConstant, Configuration, ConfigurationConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
-import { PersistenceV2, window } from '@kit.ArkUI';
+import { window } from '@kit.ArkUI';
 import { HMRouterMgr } from '@hadss/hmrouter';
 import { HMRouterTransitions } from '@hadss/hmrouter-transitions';
-import { createNWeb, LightDarkStatus, PreferenceManager, WindowUtils } from 'utils';
+import { createNWeb, GlobalContext, PreferenceManager, WindowUtils } from 'utils';
 
 const TAG: string = 'EntryAbility';
 
@@ -12,11 +12,10 @@ export default class EntryAbility extends UIAbility {
 
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
     hilog.info(0x0000, TAG, '%{public}s', 'Ability onCreate');
-
+    AppStorage.setOrCreate('mContext',this.context);
+    GlobalContext.getInstance().setContext('mainContext', this.context);
     // HMRouter路由框架
     HMRouterMgr.init({ context: this.context });
-
-    this.setAppDarkAndLight();
   }
 
   onDestroy(): void {
@@ -34,6 +33,8 @@ export default class EntryAbility extends UIAbility {
         return;
       }
       hilog.info(0x0000, TAG, 'Succeeded in loading the content.');
+
+      this.setAppDarkAndLight();
     });
 
     windowStage.getMainWindow().then((windowObj: window.Window) => {
@@ -45,7 +46,7 @@ export default class EntryAbility extends UIAbility {
         WindowUtils.updateWidthBp(windowSize.width);
         WindowUtils.updateHeightBp(windowSize.width, windowSize.height);
       })
-    })
+    });
 
     // HMRouterTransitions 高阶转场动画库
     HMRouterTransitions.init(windowStage);
@@ -75,20 +76,20 @@ export default class EntryAbility extends UIAbility {
 
   onNewWant(want: Want, launchParam: AbilityConstant.LaunchParam): void {
     console.log(TAG,'Ability onNewWant');
-    this.setAppDarkAndLight();
   }
 
   async setAppDarkAndLight() {
-    // let isDark = await this.manager.getValue<boolean>('isDark');
-    // console.log(TAG, 'isDark:' + isDark);
-    // if (isDark) {
-    //   this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_DARK);
-    // } else {
-    //   this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_LIGHT);
-    // }
-    // // 当前颜色模式
-    // AppStorage.setOrCreate<ConfigurationConstant.ColorMode>('currentColorMode',
-    //   isDark ? ConfigurationConstant.ColorMode.COLOR_MODE_DARK :
-    //     ConfigurationConstant.ColorMode.COLOR_MODE_LIGHT);
+    let isDark = await this.manager.getValue(this.context,'dark') as string;
+    console.log(TAG,'setAppDarkAndLight isDark:'+isDark);
+
+    if (isDark) {
+      this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_DARK);
+    } else {
+      this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_LIGHT);
+    }
+    // 当前颜色模式
+    AppStorage.setOrCreate<ConfigurationConstant.ColorMode>('currentColorMode',
+      isDark ? ConfigurationConstant.ColorMode.COLOR_MODE_DARK :
+        ConfigurationConstant.ColorMode.COLOR_MODE_LIGHT);
   }
 }

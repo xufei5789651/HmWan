@@ -4,6 +4,7 @@ import { HmRouterPathConstants, LoginStatus, PreferenceManager, showToast, User,
 import { LoginNetFunc } from '../net/LoginNetFunc';
 import { LoginRegisterParam } from '../net/LoginRegisterParam';
 import { PersistenceV2 } from '@kit.ArkUI';
+import { common } from '@kit.AbilityKit';
 
 const TAG: string = 'LoginMainPage';
 
@@ -15,12 +16,13 @@ export struct LoginMainPage {
   @Local password: string = '';
   @Local isChecked: boolean = false;
   @Local loginStatus: LoginStatus = PersistenceV2.connect(LoginStatus,'loginStatus',()=>new LoginStatus())!;
+  mContext = this.getUIContext().getHostContext() as common.UIAbilityContext;
 
   loginForUser() {
     let loginParam: LoginRegisterParam = { username: this.username, password: this.password };
     LoginNetFunc.login(loginParam).then((response) => {
       if (response.errorCode === 0) {
-        this.manager.setValue('user', response.data);
+        this.manager.setValue(this.mContext,'user', response.data);
         this.loginStatus.isLogin=true;
         HMRouterMgr.replace({ navigationId: 'mainNavigation',pageUrl: HmRouterPathConstants.PAGE_URL_NAV })
       } else {

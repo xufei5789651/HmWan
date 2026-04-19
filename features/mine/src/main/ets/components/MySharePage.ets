@@ -6,6 +6,7 @@ import { HmRouterPathConstants, PreferenceManager, showToast, TitleComponent, Ut
 import { ArticleInfo, ShareArticleResponse } from '../model/ShareArticleResponse';
 import { MineNetFunc } from '../net/MineNetFunc';
 import { ShareArticleItem } from './ShareArticleItem';
+import { common } from '@kit.AbilityKit';
 
 const TAG: string = 'MySharePage';
 
@@ -20,6 +21,7 @@ export struct MySharePage {
   @State dataList: ArticleInfo[] = [];
   @State isRefresh: boolean = false;
   @State isMore: boolean = false;
+  mContext = this.getUIContext().getHostContext() as common.UIAbilityContext;
 
   aboutToAppear(): void {
     this.waterViewManager.registerNodeItem('ShareWaterView', wrapBuilder(ShareWaterView));
@@ -44,7 +46,7 @@ export struct MySharePage {
   }
 
   async getShareList(pageNum: number) {
-    let cookie = await this.manager.getValue('cookie') as string;
+    let cookie = await this.manager.getValue(this.mContext,'cookie') as string;
     MineNetFunc.getShareList(cookie, pageNum).then((response: ShareArticleResponse) => {
       console.log(TAG, 'getShareList length:' + response.data.shareArticles.datas.length);
       if (response.errorCode === 0) {

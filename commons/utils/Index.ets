@@ -2,6 +2,8 @@ export { showToast, shareLink } from './src/main/ets/utils/Utils'
 
 export { UtilConstants } from './src/main/ets/common/UtilConstants'
 
+export { GlobalContext } from './src/main/ets/common/GlobalContext'
+
 export { HmRouterPathConstants } from './src/main/ets/common/HmRouterPathConstants'
 
 export { WindowUtils } from './src/main/ets/utils/WindowUtils'

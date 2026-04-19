@@ -14,6 +14,7 @@ import { ArticleInfo, CollectArticleResponse } from '../model/CollectArticleResp
 import { MineNetFunc } from '../net/MineNetFunc';
 import { MineArticleItem } from './MineArticleItem';
 import { display } from '@kit.ArkUI';
+import { common } from '@kit.AbilityKit';
 
 const TAG: string = 'MyCollectionPage';
 
@@ -30,6 +31,7 @@ export struct MyCollectionPage {
   @State dataList: ArticleInfo[] = [];
   @State isRefresh: boolean = false;
   @State isMore: boolean = false;
+  mContext = this.getUIContext().getHostContext() as common.UIAbilityContext;
 
   changeBreakpoint() {
     console.log(TAG, 'changeBreakpoint currentWidthBreakpoint: ' + this.currentWidthBreakpoint);
@@ -61,7 +63,7 @@ export struct MyCollectionPage {
   }
 
   async getCollectList(pageNum: number) {
-    let cookie = await this.manager.getValue('cookie') as string;
+    let cookie = await this.manager.getValue(this.mContext,'cookie') as string;
     MineNetFunc.getCollectList(cookie, pageNum).then((response: CollectArticleResponse) => {
       if (response.errorCode === 0) {
         let list = response.data.datas;

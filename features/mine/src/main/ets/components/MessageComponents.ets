@@ -14,6 +14,7 @@ import { MessageInfo, MessageInfoResponse } from "../model/UserMessageResponse";
 import { MineNetFunc } from "../net/MineNetFunc";
 import { JSON } from "@kit.ArkTS";
 import { MessageListItem } from "./MessageListItem";
+import { common } from "@kit.AbilityKit";
 
 const TAG: string = 'MessageComponents';
 
@@ -29,6 +30,7 @@ export struct MessageComponents {
   @Local message: string = '';
   @Local pageNum: number = 1;
   @Local messageList: MessageInfo[] = [];
+  mContext = this.getUIContext().getHostContext() as common.UIAbilityContext;
 
   aboutToAppear(): void {
     this.selectType();
@@ -48,7 +50,8 @@ export struct MessageComponents {
     if (!this.isRefresh && pageNum === 1) {
       this.loadingStatus = LoadingStatus.LOADINGSTART;
     }
-    let cookie = await this.manager.getValue('cookie') as string;
+
+    let cookie = await this.manager.getValue(this.mContext,'cookie') as string;
     MineNetFunc.getUserMessageUNRead(cookie, pageNum).then((response: MessageInfoResponse) => {
 
       if (response.errorCode === 0) {
@@ -85,7 +88,7 @@ export struct MessageComponents {
     if (!this.isRefresh && pageNum === 1) {
       this.loadingStatus = LoadingStatus.LOADINGSTART;
     }
-    let cookie = await this.manager.getValue('cookie') as string;
+    let cookie = await this.manager.getValue(this.mContext,'cookie') as string;
     MineNetFunc.getUserMessageRead(cookie, pageNum).then((response: MessageInfoResponse) => {
 
       if (response.errorCode === 0) {

@@ -1,19 +1,16 @@
-import { common } from '@kit.AbilityKit';
 import { preferences } from '@kit.ArkData';
+import { BusinessError } from '@kit.BasicServicesKit';
 
 const PREFERENCES_NAME: string = 'DataStore';
+
+const TAG: string = 'PreferenceManager';
 
 /**
  * 用户首选项
  */
 export class PreferenceManager {
   private preferences?: preferences.Preferences;
-  private context = getContext(this) as common.UIAbilityContext;
   private static instance: PreferenceManager;
-
-  private constructor() {
-    this.initPreference(PREFERENCES_NAME);
-  }
 
   static getInstance(): PreferenceManager {
     if (!PreferenceManager.instance) {
@@ -27,8 +24,8 @@ export class PreferenceManager {
    * @param storeName
    * @returns
    */
-  async initPreference(storeName: string): Promise<void> {
-    return preferences.getPreferences(this.context, storeName)
+  private async initPreference(context: Context, storeName: string): Promise<void> {
+    return preferences.getPreferences(context, storeName)
       .then((preferences: preferences.Preferences) => {
         this.preferences = preferences;
       });
@@ -40,16 +37,11 @@ export class PreferenceManager {
    * @param value
    * @returns
    */
-  async setValue<T>(key: string, value: T): Promise<void> {
-    if (this.preferences) {
-      this.preferences.put(key, JSON.stringify(value)).then(() => {
-        this.saveUserData();
-      })
-    } else {
-      this.initPreference(PREFERENCES_NAME).then(() => {
-        this.setValue<T>(key, value);
-      });
-    }
+  async setValue<T>(context: Context, key: string, value: T): Promise<void> {
+    this.initPreference(context, PREFERENCES_NAME);
+    this.preferences!.put(key, JSON.stringify(value)).then(() => {
+      this.saveUserData();
+    })
   }
 
   /**
@@ -57,20 +49,20 @@ export class PreferenceManager {
    * @param key
    * @returns
    */
-  async getValue<T>(key: string): Promise<T | null> {
-    if (this.preferences) {
-      return this.preferences.get(key, '').then((res: preferences.ValueType) => {
-        let value: T | null = null;
-        if (res) {
-          value = JSON.parse(res as string) as T;
-        }
-        return value;
-      });
-    } else {
-      return this.initPreference(PREFERENCES_NAME).then(() => {
-        return this.getValue<T>(key);
-      });
-    }
+
+  async getValue<T>(context: Context, key: string): Promise<T | null> {
+    this.initPreference(context, PREFERENCES_NAME);
+    return this.preferences!.get(key, '').then((res: preferences.ValueType) => {
+      let value: T | null = null;
+      if (res) {
+        value = JSON.parse(res as string) as T;
+      }
+      console.log(TAG, 'getValue value:' + value);
+      return value;
+    }).catch((err: BusinessError) => {
+      console.error(TAG, 'getValue code:' + err.code + ',message:' + err.message);
+      return null;
+    });
   }
 
   /**
@@ -78,14 +70,9 @@ export class PreferenceManager {
    * @param key
    * @returns
    */
-  async hasValue(key: string): Promise<boolean> {
-    if (this.preferences) {
-      return this.preferences.has(key);
-    } else {
-      return this.initPreference(PREFERENCES_NAME).then(() => {
-        return this.hasValue(key);
-      });
-    }
+  async hasValue(context: Context, key: string): Promise<boolean> {
+    this.initPreference(context, PREFERENCES_NAME);
+    return this.preferences!.has(key);
   }
 
   /**
@@ -93,22 +80,18 @@ export class PreferenceManager {
    * @param key
    * @returns
    */
-  async deleteValue(key: string): Promise<void> {
-    if (this.preferences) {
-      this.preferences.delete(key).then(() => {
-        this.saveUserData();
-      });
-    } else {
-      this.initPreference(PREFERENCES_NAME).then(() => {
-        this.deleteValue(key);
-      });
-    }
+  async deleteValue(context: Context, key: string): Promise<void> {
+    this.initPreference(context, PREFERENCES_NAME);
+    this.preferences!.delete(key).then(() => {
+      this.saveUserData();
+    });
   }
 
   /**
    * 保存用户数据到用户首选项持久化文件中
    */
   private saveUserData() {
-    this.preferences?.flush();
+    console.log(TAG,'saveUserData');
+    this.preferences!.flush();
   }
 }

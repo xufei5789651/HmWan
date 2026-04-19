@@ -3,11 +3,14 @@ import { Constants } from '../common/Constants';
 import { ArticleMainPage } from 'article';
 import { MineMainPage } from 'mine';
 import { HomeMainPage } from 'home';
-import { HmRouterPathConstants, UtilConstants } from 'utils';
+import { HmRouterPathConstants, PreferenceManager, UtilConstants } from 'utils';
+
+const TAG:string='NavPage';
 
 @HMRouter({ pageUrl: HmRouterPathConstants.PAGE_URL_NAV ,singleton:true, lifecycle: UtilConstants.LIFECYCLE_EXIT_APP})
 @Component
 export struct NavPage {
+  manager: PreferenceManager = PreferenceManager.getInstance();
   @State message: string = 'Hello World';
   @State currentIndex: number = 0;
   tabsController: TabsController = new TabsController();
