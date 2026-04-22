@@ -1,8 +1,6 @@
 import { PullToRefresh } from '@ohos/pulltorefresh';
 import { NetError } from 'network';
-import { BreakpointType,
-  GlobalContext,
-  HmRouterPathConstants, PreferenceManager, showToast, UtilConstants } from 'utils';
+import { BreakpointType, HmRouterPathConstants, PreferenceManager, showToast, UtilConstants } from 'utils';
 import { ArticleListDataSource } from 'utils/src/main/ets/model/ArticleLstDataSource';
 import { BannerItem, BannerResponse } from '../model/BannerModel';
 import { Article, bannerItem, HomeArticleResponse } from 'utils/src/main/ets/model/HomeArticleModel';
@@ -16,7 +14,6 @@ const TAG = 'HomeMainPage';
 @Preview
 @Component
 export struct HomeMainPage {
-  globalContext:common.UIAbilityContext=GlobalContext.getInstance().getContext('mainContext')!;
   manager: PreferenceManager = PreferenceManager.getInstance();
   @StorageProp('currentWidthBreakpoint') currentWidthBreakpoint: string = UtilConstants.CONST_BREAKPOINT_MD;
   @State lazyArticleList: ArticleListDataSource = new ArticleListDataSource();
@@ -27,9 +24,6 @@ export struct HomeMainPage {
   mContext = this.getUIContext().getHostContext() as common.UIAbilityContext;
 
   async aboutToAppear(): Promise<void> {
-    console.log(TAG,'----> aboutToAppear ');
-    let isDark = await this.manager.getValue(this.globalContext,'dark') as string;
-    console.log(TAG,'aboutToAppear isDark:'+isDark);
     this.getBannerList();
     this.getHomeArticleList(this.pageIndex);
   }

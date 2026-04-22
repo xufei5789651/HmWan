@@ -13,7 +13,6 @@ export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
     hilog.info(0x0000, TAG, '%{public}s', 'Ability onCreate');
     AppStorage.setOrCreate('mContext',this.context);
-    GlobalContext.getInstance().setContext('mainContext', this.context);
     // HMRouter路由框架
     HMRouterMgr.init({ context: this.context });
   }
@@ -78,18 +77,20 @@ export default class EntryAbility extends UIAbility {
     console.log(TAG,'Ability onNewWant');
   }
 
-  async setAppDarkAndLight() {
-    let isDark = await this.manager.getValue(this.context,'dark') as string;
-    console.log(TAG,'setAppDarkAndLight isDark:'+isDark);
+  setAppDarkAndLight() {
+    setTimeout(async () => {
+      let isDark = await this.manager.getValue(this.context, 'dark') as string;
+      console.log(TAG, 'setAppDarkAndLight isDark:' + isDark);
 
-    if (isDark) {
-      this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_DARK);
-    } else {
-      this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_LIGHT);
-    }
-    // 当前颜色模式
-    AppStorage.setOrCreate<ConfigurationConstant.ColorMode>('currentColorMode',
-      isDark ? ConfigurationConstant.ColorMode.COLOR_MODE_DARK :
-        ConfigurationConstant.ColorMode.COLOR_MODE_LIGHT);
+      if (isDark==='1') {
+        this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_DARK);
+      } else {
+        this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_LIGHT);
+      }
+      // 当前颜色模式
+      AppStorage.setOrCreate<ConfigurationConstant.ColorMode>('currentColorMode',
+        isDark ? ConfigurationConstant.ColorMode.COLOR_MODE_DARK :
+          ConfigurationConstant.ColorMode.COLOR_MODE_LIGHT);
+    },1000);
   }
 }
