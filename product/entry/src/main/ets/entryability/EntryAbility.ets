@@ -24,6 +24,7 @@ export default class EntryAbility extends UIAbility {
   onWindowStageCreate(windowStage: window.WindowStage): void {
     // Main window is created, set main page for this ability
     hilog.info(0x0000, TAG, '%{public}s', 'Ability onWindowStageCreate');
+    this.manager.getValue<string>(this.context, 'dark');
 
     windowStage.loadContent('pages/MainPage', (err) => {
       createNWeb('https://wanandroid.com/', windowStage.getMainWindowSync().getUIContext());
