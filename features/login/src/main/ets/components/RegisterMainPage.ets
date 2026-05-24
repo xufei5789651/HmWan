@@ -2,7 +2,7 @@ import { HMRouter, HMRouterMgr } from "@hadss/hmrouter";
 import { NetError } from "network";
 import { HmRouterPathConstants, PreferenceManager, showToast, UtilConstants } from "utils";
 import { LoginNetFunc } from "../net/LoginNetFunc";
-import { LoginRegisterParam } from "../net/LoginRegisterParam";
+import { LoginRegisterParam } from "../model/LoginRegisterParam";
 import { common } from "@kit.AbilityKit";
 
 const TAG: string = 'RegisterMainPage';

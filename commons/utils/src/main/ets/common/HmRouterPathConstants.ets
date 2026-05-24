@@ -4,6 +4,8 @@ export class HmRouterPathConstants {
   static readonly PAGE_LOGIN_NAV: string = 'LoginMainPage';
   static readonly PAGE_REGISTER_NAV: string = 'RegisterMainPage';
   static readonly PAGE_MINE_NAV: string = 'MineMainPage';
+  static readonly PAGE_SEARCH_NAV: string = 'SearchMainPage';
+  static readonly PAGE_SEARCH_DETAIL_NAV: string = 'SearchDetailPage';
   static readonly PAGE_ARTICLE_DETAIL_NAV: string = 'ArticleDetailPage';
   static readonly PAGE_MINE_INTEGRAL_NAV: string = 'MyIntegralPage';
   static readonly PAGE_MINE_DETAIL_NAV: string = 'MineDetailPage';

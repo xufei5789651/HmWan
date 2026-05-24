@@ -1,7 +1,7 @@
 import { AxiosManager, NetError } from "network";
 import { LoginResponse } from "utils";
 import { APIConstants } from "../api/APIConstants";
-import { LoginRegisterParam } from "./LoginRegisterParam";
+import { LoginRegisterParam } from "../model/LoginRegisterParam";
 
 export class LoginNetFunc {
   static login(params: LoginRegisterParam): Promise<LoginResponse> {

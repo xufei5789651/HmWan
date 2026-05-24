@@ -16,10 +16,10 @@ export struct ArticleTabBar {
         .height(UtilConstants.CONST_UI_PER_80)
         .margin({ top: UtilConstants.CONST_UI_SIZE_5, bottom: UtilConstants.CONST_UI_SIZE_5 })
         .fontSize(this.currentIndex === index ? UtilConstants.CONST_UI_FONT_SIZE_22 :
-        UtilConstants.CONST_UI_FONT_SIZE_18)
+          UtilConstants.CONST_UI_FONT_SIZE_18)
         .fontColor($r('app.color.tabs_item_font_color'))
         .fontWeight(this.currentIndex === index ? UtilConstants.CONST_UI_FONT_WEIGHT_700 :
-        UtilConstants.CONST_UI_FONT_WEIGHT_400)
+          UtilConstants.CONST_UI_FONT_WEIGHT_400)
 
       Divider()
         .strokeWidth(UtilConstants.CONST_UI_SIZE_2)
@@ -29,14 +29,18 @@ export struct ArticleTabBar {
         .opacity(this.currentIndex === index ? 1 : 0)
     }
     .justifyContent(FlexAlign.Center)
-    .padding({ left: UtilConstants.CONST_UI_PER_3, right: UtilConstants.CONST_UI_PER_3 })
+    .padding({
+      left: UtilConstants.CONST_UI_PER_3,
+      right: this.currentIndex === (this.tabArray.length - 1) ? UtilConstants.CONST_UI_PER_1 :
+        UtilConstants.CONST_UI_PER_3
+    })
   }
 
   build() {
     Tabs({ barPosition: BarPosition.Start }) {
       ForEach(this.tabArray, (item: ProjectSortModel, index: number) => {
         TabContent() {
-          ArticleList({tabId:item.id})
+          ArticleList({ tabId: item.id })
         }.tabBar(this.tabBuilder(index))
       }, (item: ProjectSortModel) => {
         return JSON.stringify(item.id);
@@ -49,7 +53,7 @@ export struct ArticleTabBar {
     .barHeight(UtilConstants.CONST_UI_SIZE_56)
     .divider({ color: $r('app.color.article_tabs_line_color'), strokeWidth: UtilConstants.CONST_UI_SIZE_1 })
     .onChange((index: number) => {
-      this.currentIndex=index;
+      this.currentIndex = index;
     })
     .onAnimationStart((index: number, targetIndex: number, event: TabsAnimationEvent) => {
       this.currentIndex = targetIndex;

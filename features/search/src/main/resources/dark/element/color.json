@@ -1,0 +1,24 @@
+{
+  "color": [
+    {
+      "name": "article_item_background",
+      "value": "#000000"
+    },
+    {
+      "name": "article_item_title",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "search_background",
+      "value": "#000000"
+    },
+    {
+      "name": "search_placeholder_background",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "search_border_color",
+      "value": "#F3F4F5"
+    }
+  ]
+}

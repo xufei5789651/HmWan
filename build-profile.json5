@@ -78,6 +78,10 @@
           ]
         }
       ]
+    },
+    {
+      "name": "search",
+      "srcPath": "./features/search",
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "name": "login",
+  "name": "search",
   "version": "1.0.0",
   "description": "Please describe the basic information.",
   "main": "Index.ets",
@@ -7,6 +7,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "network": "file:../../commons/network",
-    "utils": "file:../../commons/utils"
+    "utils": "file:../../commons/utils",
   }
 }

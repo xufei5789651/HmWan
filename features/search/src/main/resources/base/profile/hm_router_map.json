@@ -1,0 +1,22 @@
+{
+  "routerMap": [
+    {
+      "name": "SearchMainPage",
+      "pageSourceFile": "src/main/ets/generated/HMSearchMainPage1145882064.ets",
+      "buildFunction": "SearchMainPageBuilder",
+      "customData": {
+        "pageUrl": "SearchMainPage",
+        "name": "SearchMainPage"
+      }
+    },
+    {
+      "name": "SearchDetailPage",
+      "pageSourceFile": "src/main/ets/generated/HMSearchDetailPage283439720.ets",
+      "buildFunction": "SearchDetailPageBuilder",
+      "customData": {
+        "pageUrl": "SearchDetailPage",
+        "name": "SearchDetailPage"
+      }
+    }
+  ]
+}

@@ -12,15 +12,16 @@
 - 浏览文章、分享文章
 - 我的积分、积分排行榜
 - 我的消息
+- 搜索
 
 ### 项目截图
 
-|  直板机   | 两折叠  |
-|  :----:  | :----:  |
+|  直板机   |                       双折叠                        |
+|  :----:  |:------------------------------------------------:|
 | ![](screenshot/Screenshot_2026-04-25T193023.png)  | ![](screenshot/Screenshot_2026-04-25T193436.png) |
 | ![](screenshot/Screenshot_2026-04-25T193032.png)  | ![](screenshot/Screenshot_2026-04-25T193402.png) |
 | ![](screenshot/Screenshot_2026-04-25T193049.png)  | ![](screenshot/Screenshot_2026-04-25T193423.png) |
-| ![](screenshot/Screenshot_2026-04-25T193212.png)  |  |
+| ![](screenshot/Screenshot_2026-04-25T193212.png)  | ![](screenshot/Screenshot_20260524194007833.png) |
 
 ### 技术点
 - [HMRouter](https://developer.huawei.com/consumer/cn/doc/best-practices/bpta-hmrouter)

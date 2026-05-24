@@ -2,7 +2,7 @@ import { HMRouter, HMRouterMgr } from '@hadss/hmrouter';
 import { NetError } from 'network';
 import { HmRouterPathConstants, LoginStatus, PreferenceManager, showToast, User, UtilConstants } from 'utils';
 import { LoginNetFunc } from '../net/LoginNetFunc';
-import { LoginRegisterParam } from '../net/LoginRegisterParam';
+import { LoginRegisterParam } from '../model/LoginRegisterParam';
 import { PersistenceV2 } from '@kit.ArkUI';
 import { common } from '@kit.AbilityKit';
 

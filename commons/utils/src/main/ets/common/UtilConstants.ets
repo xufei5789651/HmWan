@@ -8,9 +8,11 @@ export class UtilConstants {
   static readonly CONST_UI_PER_40: string = '40%';
   static readonly CONST_UI_PER_35: string = '35%';
   static readonly CONST_UI_PER_30: string = '30%';
+  static readonly CONST_UI_PER_15: string = '15%';
   static readonly CONST_UI_PER_10: string = '10%';
   static readonly CONST_UI_PER_8: string = '8%';
   static readonly CONST_UI_PER_3: string = '3%';
+  static readonly CONST_UI_PER_1: string = '1%';
   static readonly CONST_UI_AUTO: string = 'auto';
   // size vp
   static readonly CONST_UI_SIZE_300: number = 300;
